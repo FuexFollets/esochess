@@ -14,12 +14,13 @@ struct chess_board {
 
   piece& at_cord(cordinate);
 
+  void make_move(); 
   bool is_legal();
   std::vector<chess_move> controlled_from(cordinate);
   std::vector<chess_move> controlled_squares();
   std::vector<chess_move> available_moves();
-  void make_move(); 
 };
+
 
 
 

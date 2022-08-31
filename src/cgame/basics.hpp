@@ -10,7 +10,7 @@ struct cordinate {
   cordinate(int x, int y) : _x{x}, _y{y} {}
 
   cordinate operator+ (cordinate cord) {
-    return cordinate(cord._x + _x, cord._y + _y)
+    return cordinate(cord._x + _x, cord._y + _y);
   }
 
   cordinate operator- (cordinate cord) {
