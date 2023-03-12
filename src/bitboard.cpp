@@ -39,7 +39,7 @@ namespace esochess {
 
             cordinates.emplace_back(cordinate {x_axis, y_axis});
 
-            bits &= std::bit_ceil(bits);
+            bits ^= std::bit_ceil(bits);
         }
 
         return cordinates;
