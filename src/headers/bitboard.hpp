@@ -1,9 +1,9 @@
 #ifndef ESOCHESS_BITBOARD_HPP
 #define ESOCHESS_BITBOARD_HPP
-#include <string>
-#include <vector>
 #pragma once
 
+#include <string>
+#include <vector>
 #include <cstddef>
 #include <optional>
 #include <array>
@@ -12,6 +12,8 @@
 namespace esochess {
     struct bitboard {
         enum Turn {White, Black};
+
+        static constexpr const char* const starting_position_fen {"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
 
         struct piece {
             std::size_t index;
@@ -61,6 +63,9 @@ namespace esochess {
         std::size_t _full_move_clock {};
 
         public:
+
+        bitboard() = default;
+        explicit bitboard(const std::string& fen);
 
         [[nodiscard]] std::array<std::uint64_t, 12> pieces_bit_board() const;
         [[nodiscard]] Turn turn() const;
