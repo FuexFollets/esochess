@@ -28,12 +28,21 @@ namespace esochess {
         return _full_move_clock;
     }
 
-    std::vector<bitboard::cordinate> bitboard::get_squares_from_bits(std::uint64_t bits) {
-        const int bit_position {std::countl_zero(square)};
-        const int x_axis {bit_position % 8};
-        const int y_axis {bit_position / 8};
+    std::vector<bitboard::cordinate> bitboard::get_cordinates_from_bits(std::uint64_t bits) {
+        std::vector<bitboard::cordinate> cordinates;
 
-        return cordinate {x_axis, y_axis};
+        while (bits != 0x00000000) {
+            const int bit_position {std::countl_zero(bits)};
+
+            const int x_axis {bit_position % 8};
+            const int y_axis {bit_position / 8};
+
+            cordinates.emplace_back(cordinate {x_axis, y_axis});
+
+            bits &= std::bit_ceil(bits);
+        }
+
+        return cordinates;
     }
 
     std::vector<std::vector<bitboard::piece>> bitboard::export_grid() const {

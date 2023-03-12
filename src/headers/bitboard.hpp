@@ -77,7 +77,7 @@ namespace esochess {
             int y;
         };
 
-        static std::vector<cordinate> get_squares_from_bits(std::uint64_t bits);
+        static std::vector<cordinate> get_cordinates_from_bits(std::uint64_t bits);
     };
 }
 
