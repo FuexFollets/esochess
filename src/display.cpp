@@ -43,6 +43,12 @@ namespace esochess {
 
         std::vector<std::vector<bitboard::piece>> piece_grid;
 
+        for (const std::vector<bitboard::piece>& row: displayed_bitboard.export_grid()) {
+            for (const bitboard::piece& chess_piece: row) {
+                std::cout << chess_piece.symbol << ' ';
+            }
 
+            std::cout << '\n';
+        }
     }
 }
