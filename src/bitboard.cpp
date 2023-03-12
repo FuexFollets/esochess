@@ -47,6 +47,8 @@ namespace esochess {
                     _pieces_bit_board[corresponding_piece.index] |= bit_position;
                 }
             }
+
+            row--;
         }
 
         if (fen_turn == "w") { _turn = Turn::White; }
@@ -111,7 +113,7 @@ namespace esochess {
     }
 
     std::vector<std::vector<bitboard::piece>> bitboard::export_grid() const {
-        std::vector<std::vector<bitboard::piece>> exported_grid {};
+        std::vector<std::vector<bitboard::piece>> exported_grid (8, std::vector<bitboard::piece>(8));
 
         for (const bitboard::piece piece : bitboard::pieces::all) {
             const std::uint64_t bits {_pieces_bit_board[piece.index]};
