@@ -21,9 +21,11 @@ namespace esochess {
             bool black_queen {};
         };
 
+        using bitboard_array = std::array<std::uint64_t, 12>;
+
         private:
 
-        std::array<std::uint64_t, 12> _pieces_bit_board {};
+        bitboard_array _pieces_bit_board {};
         Turn _turn {};
 
         castle_rights _can_castle {};
