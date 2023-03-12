@@ -16,8 +16,8 @@ namespace esochess {
         static constexpr const char* const starting_position_fen {"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
 
         struct piece {
-            std::size_t index;
-            char symbol;
+            std::size_t index {};
+            char symbol {};
         };
 
         struct pieces {
@@ -33,7 +33,7 @@ namespace esochess {
                 black_bishop {8, 'b'},
                 black_rook {9, 'r'},
                 black_queen {10, 'q'},
-                black_king {11, 'K'};
+                black_king {11, 'k'};
 
             constexpr static std::array<piece, 12> all {
                 white_pawn, white_knight, white_bishop, white_rook, white_queen, white_king,
