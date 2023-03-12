@@ -2,6 +2,7 @@
 #define ESOCHESS_BITBOARD_HPP
 #pragma once
 
+#include <cstddef>
 #include <optional>
 #include <array>
 #include <cstdint>
@@ -9,9 +10,26 @@
 namespace esochess {
     struct bitboard {
         enum Turn {White, Black};
-        enum BitboardIndex {
-            WhitePawn, WhiteKnight, WhiteBishop, WhiteRook, WhiteQueen, WhiteKing,
-            BlackPawn, BlackKnight, BlackBishop, BlackRook, BlackQueen, BlackKing
+
+        struct piece {
+            std::size_t index;
+            char symbol;
+        };
+
+        struct pieces {
+            constexpr static piece
+                white_pawn {0, 'P'},
+                white_knight {1, 'N'},
+                white_bishop {2, 'B'},
+                white_rook {3, 'R'},
+                white_queen {4, 'Q'},
+                white_king {5, 'K'},
+                black_pawn {6, 'p'},
+                black_knight {7, 'n'},
+                black_bishop {8, 'b'},
+                black_rook {9, 'r'},
+                black_queen {10, 'q'},
+                black_king {11, 'K'};
         };
 
         struct castle_rights {
