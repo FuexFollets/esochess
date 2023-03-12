@@ -51,6 +51,12 @@ namespace esochess {
 
         for (const bitboard::piece piece : bitboard::pieces::all) {
             const std::uint64_t bits {_pieces_bit_board[piece.index]};
+
+            std::vector<bitboard::cordinate> cordinates {get_cordinates_from_bits(bits)};
+
+            for (const auto [x_cordinate, y_cordinate]: cordinates) {
+                exported_grid[x_cordinate][y_cordinate] = piece;
+            }
         }
 
         return exported_grid;
