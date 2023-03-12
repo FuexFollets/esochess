@@ -1,3 +1,6 @@
+#include <bit>
+#include <vector>
+
 #include "headers/bitboard.hpp"
 
 namespace esochess {
@@ -23,5 +26,23 @@ namespace esochess {
 
     std::size_t bitboard::full_move_clock() const {
         return _full_move_clock;
+    }
+
+    std::vector<bitboard::cordinate> bitboard::get_squares_from_bits(std::uint64_t bits) {
+        const int bit_position {std::countl_zero(square)};
+        const int x_axis {bit_position % 8};
+        const int y_axis {bit_position / 8};
+
+        return cordinate {x_axis, y_axis};
+    }
+
+    std::vector<std::vector<bitboard::piece>> bitboard::export_grid() const {
+        std::vector<std::vector<bitboard::piece>> exported_grid {};
+
+        for (const bitboard::piece piece : bitboard::pieces::all) {
+            const std::uint64_t bits {_pieces_bit_board[piece.index]};
+        }
+
+        return exported_grid;
     }
 }

@@ -73,8 +73,8 @@ namespace esochess {
         [[nodiscard]] std::vector<std::vector<piece>> export_grid() const;
 
         struct cordinate {
-            std::size_t x;
-            std::size_t y;
+            int x;
+            int y;
         };
 
         static std::vector<cordinate> get_squares_from_bits(std::uint64_t bits);
