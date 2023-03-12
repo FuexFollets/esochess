@@ -83,6 +83,7 @@ namespace esochess {
         };
 
         static std::vector<cordinate> get_cordinates_from_bits(std::uint64_t bits);
+        static std::uint64_t get_bits_from_cordinate(const cordinate& cord);
     };
 }
 

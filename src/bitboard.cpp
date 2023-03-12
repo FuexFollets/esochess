@@ -112,6 +112,10 @@ namespace esochess {
         return cordinates;
     }
 
+    std::uint64_t bitboard::get_bits_from_cordinate(const cordinate& cord) {
+        return 1ULL << (63 - cord.x + cord.y * 8);
+    }
+
     std::vector<std::vector<bitboard::piece>> bitboard::export_grid() const {
         std::vector<std::vector<bitboard::piece>> exported_grid (8, std::vector<bitboard::piece>(8));
 
