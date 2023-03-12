@@ -1,5 +1,7 @@
 #ifndef ESOCHESS_BITBOARD_HPP
 #define ESOCHESS_BITBOARD_HPP
+#include <string>
+#include <vector>
 #pragma once
 
 #include <cstddef>
@@ -30,6 +32,11 @@ namespace esochess {
                 black_rook {9, 'r'},
                 black_queen {10, 'q'},
                 black_king {11, 'K'};
+
+            constexpr static std::array<piece, 12> all {
+                white_pawn, white_knight, white_bishop, white_rook, white_queen, white_king,
+                black_pawn, black_knight, black_bishop, black_rook, black_queen, black_king
+            };
         };
 
         struct castle_rights {
@@ -61,6 +68,9 @@ namespace esochess {
         [[nodiscard]] std::optional<std::uint64_t> en_passant_square() const;
         [[nodiscard]] std::size_t half_move_clock() const;
         [[nodiscard]] std::size_t full_move_clock() const;
+
+        [[nodiscard]] std::string export_fen() const;
+        [[nodiscard]] std::vector<std::vector<piece>> export_grid() const;
     };
 }
 
