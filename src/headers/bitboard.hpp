@@ -6,7 +6,7 @@
 #include <array>
 #include <cstdint>
 
-namespace esochess::game {
+namespace esochess {
     struct bitboard {
         enum Turn {White, Black};
         enum BitboardIndex {
