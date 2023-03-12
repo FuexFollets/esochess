@@ -1,4 +1,6 @@
 #include <bit>
+#include <iostream>
+#include <bitset>
 #include <vector>
 
 #include "headers/bitboard.hpp"
@@ -31,15 +33,14 @@ namespace esochess {
     std::vector<bitboard::cordinate> bitboard::get_cordinates_from_bits(std::uint64_t bits) {
         std::vector<bitboard::cordinate> cordinates;
 
-        while (bits != 0x00000000) {
+        while (bits != 0x0000'0000) {
             const int bit_position {std::countl_zero(bits)};
 
-            const int x_axis {bit_position % 8};
-            const int y_axis {bit_position / 8};
+            cordinates.emplace_back(cordinate {bit_position % 8, bit_position / 8});
 
-            cordinates.emplace_back(cordinate {x_axis, y_axis});
+            const std::uint64_t bit_mask {~std::bit_floor(bits)};
 
-            bits ^= std::bit_ceil(bits);
+            bits = bits & bit_mask;
         }
 
         return cordinates;
