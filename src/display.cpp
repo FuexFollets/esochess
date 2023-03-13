@@ -1,6 +1,7 @@
+#include <algorithm>
+#include <bit>
 #include <iostream>
 #include <vector>
-#include <bit>
 
 #include "headers/display.hpp"
 #include "headers/bitboard.hpp"
@@ -43,7 +44,11 @@ namespace esochess {
 
         std::vector<std::vector<bitboard::piece>> piece_grid;
 
-        for (const std::array<bitboard::piece, 8>& row: displayed_bitboard.export_grid()) {
+        auto grid {displayed_bitboard.export_grid()};
+
+        std::reverse(grid.begin(), grid.end());
+
+        for (const std::array<bitboard::piece, 8>& row: grid) {
             for (const bitboard::piece& chess_piece: row) {
                 std::cout << chess_piece.symbol << ' ';
             }
