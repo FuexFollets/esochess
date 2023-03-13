@@ -36,13 +36,17 @@ namespace esochess {
         std::string rank;
         int row {7};
 
-        while (std::getline(std::stringstream {fen_position}, rank, '/') && row>= 0) {
+        std::istringstream fen_position_stream {fen_position};
+
+        while (std::getline(fen_position_stream, rank, '/') && row>= 0) {
             int column {0};
+
+            std::cout << "Rank: " << rank << '\n';
 
             for (const char letter: rank) {
                 if (std::isdigit(letter) != 0) {
                     const int value {letter - '0'};
-
+                    std::cout << "Value: " << value << '\n';
                     column += value;
                 }
 
@@ -50,12 +54,15 @@ namespace esochess {
                     const piece corresponding_piece {*std::find_if(bitboard::pieces::all.begin(),
                             bitboard::pieces::all.end(),
                             [letter] (bitboard::piece maybe_piece) {
-                                return maybe_piece.symbol == letter;}
-                            )};
+                                return maybe_piece.symbol == letter;})};
 
-                    const std::uint64_t bit_position {1ULL << (63 - column + row * 8)};
+                    std::cout << "Piece, column, row: " << corresponding_piece.symbol << ' ' << column << ' ' << row << '\n';
+
+                    const std::uint64_t bit_position {get_bits_from_cordinate(cordinate {column, row})};
+                    std::cout << "Bit position: " << std::bitset<64> {bit_position} << '\n';
 
                     _pieces_bit_board[corresponding_piece.index] |= bit_position;
+                    column++;
                 }
             }
 
@@ -124,19 +131,24 @@ namespace esochess {
     }
 
     std::uint64_t bitboard::get_bits_from_cordinate(const cordinate& cord) {
-        return 1ULL << (63 - cord.x + cord.y * 8);
+        return std::uint64_t {1} << (63 - (cord.x + cord.y * 8));
     }
 
-    std::vector<std::vector<bitboard::piece>> bitboard::export_grid() const {
-        std::vector<std::vector<bitboard::piece>> exported_grid (8, std::vector<bitboard::piece>(8));
+    std::array<std::array<bitboard::piece, 8>, 8> bitboard::export_grid() const {
+        std::array<std::array<piece, 8>, 8> exported_grid {};
 
         for (const bitboard::piece piece : bitboard::pieces::all) {
+            // std::cout << "Piece: " << piece.symbol << '\n';
             const std::uint64_t bits {_pieces_bit_board[piece.index]};
+
+            // std::cout << "Bits: " << std::bitset<64>(bits) << '\n';
 
             std::vector<bitboard::cordinate> cordinates {get_cordinates_from_bits(bits)};
 
-            for (const auto [x_cordinate, y_cordinate]: cordinates) {
-                exported_grid[x_cordinate][y_cordinate] = piece;
+            for (const auto [x_cordinate, y_cordinate] : cordinates) {
+                // std::cout << "X: " << x_cordinate << " Y: " << y_cordinate << '\n';
+
+                exported_grid.at(x_cordinate).at(y_cordinate) = piece;
             }
         }
 
