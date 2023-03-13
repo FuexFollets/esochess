@@ -41,12 +41,9 @@ namespace esochess {
         while (std::getline(fen_position_stream, rank, '/') && row>= 0) {
             int column {0};
 
-            std::cout << "Rank: " << rank << '\n';
-
             for (const char letter: rank) {
                 if (std::isdigit(letter) != 0) {
                     const int value {letter - '0'};
-                    std::cout << "Value: " << value << '\n';
                     column += value;
                 }
 
@@ -56,10 +53,7 @@ namespace esochess {
                             [letter] (bitboard::piece maybe_piece) {
                                 return maybe_piece.symbol == letter;})};
 
-                    std::cout << "Piece, column, row: " << corresponding_piece.symbol << ' ' << column << ' ' << row << '\n';
-
                     const std::uint64_t bit_position {get_bits_from_cordinate(cordinate {column, row})};
-                    std::cout << "Bit position: " << std::bitset<64> {bit_position} << '\n';
 
                     _pieces_bit_board[corresponding_piece.index] |= bit_position;
                     column++;
@@ -138,17 +132,17 @@ namespace esochess {
         std::array<std::array<piece, 8>, 8> exported_grid {};
 
         for (const bitboard::piece piece : bitboard::pieces::all) {
-            // std::cout << "Piece: " << piece.symbol << '\n';
+            std::cout << "Piece: " << piece.symbol << '\n';
             const std::uint64_t bits {_pieces_bit_board[piece.index]};
 
-            // std::cout << "Bits: " << std::bitset<64>(bits) << '\n';
+            std::cout << "Bits: " << std::bitset<64>(bits) << '\n';
 
             std::vector<bitboard::cordinate> cordinates {get_cordinates_from_bits(bits)};
 
             for (const auto [x_cordinate, y_cordinate] : cordinates) {
-                // std::cout << "X: " << x_cordinate << " Y: " << y_cordinate << '\n';
+                std::cout << "X: " << x_cordinate << " Y: " << y_cordinate << '\n';
 
-                exported_grid.at(x_cordinate).at(y_cordinate) = piece;
+                exported_grid.at(y_cordinate).at(x_cordinate) = piece;
             }
         }
 
