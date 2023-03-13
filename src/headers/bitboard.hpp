@@ -66,6 +66,10 @@ namespace esochess {
 
         bitboard() = default;
         explicit bitboard(const std::string& fen);
+        bitboard(bitboard_array assigned_bitboard_array, Turn assigned_turn,
+                castle_rights assigned_castle_rights,
+                std::optional<std::uint64_t> assigned_en_passant_square,
+                std::size_t assigned_half_move_clock, std::size_t assigned_full_move_clock);
 
         [[nodiscard]] std::array<std::uint64_t, 12> pieces_bit_board() const;
         [[nodiscard]] Turn turn() const;
