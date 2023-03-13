@@ -79,7 +79,7 @@ namespace esochess {
         [[nodiscard]] std::size_t full_move_clock() const;
 
         [[nodiscard]] std::string export_fen() const;
-        [[nodiscard]] std::vector<std::vector<piece>> export_grid() const;
+        [[nodiscard]] std::array<std::array<piece, 8>, 8> export_grid() const;
 
         struct cordinate {
             int x;
