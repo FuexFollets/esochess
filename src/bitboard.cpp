@@ -11,6 +11,17 @@
 #include "headers/bitboard.hpp"
 
 namespace esochess {
+    bitboard::bitboard(bitboard_array assigned_bitboard_array, Turn assigned_turn,
+            castle_rights assigned_castle_rights,
+            std::optional<std::uint64_t> assigned_en_passant_square,
+            std::size_t assigned_half_move_clock, std::size_t assigned_full_move_clock) :
+        _pieces_bit_board {assigned_bitboard_array},
+        _turn {assigned_turn},
+        _can_castle {assigned_castle_rights},
+        _en_passant_square {assigned_en_passant_square},
+        _half_move_clock {assigned_half_move_clock},
+        _full_move_clock {assigned_full_move_clock} {}
+
     bitboard::bitboard(const std::string& fen) {
         std::string fen_position;
         std::string fen_turn;
