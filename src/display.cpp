@@ -48,12 +48,22 @@ namespace esochess {
 
         std::reverse(grid.begin(), grid.end());
 
+        int row_index {8};
+
         for (const std::array<bitboard::piece, 8>& row: grid) {
+            std::cout << row_index-- << ' ';
             for (const bitboard::piece& chess_piece: row) {
                 std::cout << chess_piece.symbol << ' ';
             }
 
             std::cout << '\n';
         }
+
+        std::cout << "  ";
+        for (char column_name {'a'}; column_name <= 'h'; ++column_name) {
+            std::cout << column_name << ' ';
+        }
+
+        std::cout << '\n';
     }
 }
