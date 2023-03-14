@@ -2,12 +2,14 @@
 #define ESOCHESS_BITBOARD_HPP
 #pragma once
 
+#include <array>
+#include <cstddef>
+#include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
-#include <cstddef>
-#include <optional>
-#include <array>
-#include <cstdint>
+
+#include "move.hpp"
 
 namespace esochess {
     struct bitboard {
@@ -80,6 +82,8 @@ namespace esochess {
 
         [[nodiscard]] std::string export_fen() const;
         [[nodiscard]] std::array<std::array<piece, 8>, 8> export_grid() const;
+
+        void make_move(const move& move_to_make);
 
         struct cordinate {
             int x;
