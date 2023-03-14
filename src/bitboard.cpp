@@ -5,11 +5,30 @@
 #include <cstdlib>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include "headers/bitboard.hpp"
 
 namespace esochess {
+    std::string bitboard::cordinate::to_string() const {
+        const char column {static_cast<char>(x + 'a')};
+        const char rank {static_cast<char>(y + '1')};
+
+        return std::string {column} + rank;
+    }
+
+    std::tuple<bitboard::cordinate, bitboard::cordinate> bitboard::move::to_cordinate() const {
+        const int from_x {std::countl_zero(bit_mask_from) % 8};
+        const int from_y {std::countl_zero(bit_mask_from) / 8};
+
+        const int to_x {std::countl_zero(bit_mask_to) % 8};
+        const int to_y {std::countl_zero(bit_mask_to) / 8};
+
+        return std::make_tuple(bitboard::cordinate {from_x, from_y},
+                bitboard::cordinate {to_x, to_y});
+    }
+
     bitboard::bitboard(bitboard_array assigned_bitboard_array, Turn assigned_turn,
             castle_rights assigned_castle_rights,
             std::optional<std::uint64_t> assigned_en_passant_square,

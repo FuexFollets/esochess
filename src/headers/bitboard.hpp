@@ -10,7 +10,6 @@
 #include <vector>
 
 namespace esochess {
-
     struct bitboard {
         enum Turn {White, Black};
 
@@ -58,9 +57,10 @@ namespace esochess {
 
         struct move {
             piece piece_moved {};
-            std::uint64_t bit_mask {};
+            std::uint64_t bit_mask_from {};
+            std::uint64_t bit_mask_to {};
 
-            [[nodiscard]] cordinate to_cordinate() const;
+            [[nodiscard]] std::tuple<cordinate, cordinate> to_cordinate() const;
         };
 
         using bitboard_array = std::array<std::uint64_t, 12>;
