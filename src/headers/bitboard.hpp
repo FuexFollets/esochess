@@ -21,6 +21,13 @@ namespace esochess {
             char symbol {};
         };
 
+        struct cordinate {
+            int x;
+            int y;
+
+            [[nodiscard]] std::string to_string() const;
+        };
+
         struct pieces {
             constexpr static piece
                 white_pawn {0, 'P'},
@@ -52,6 +59,8 @@ namespace esochess {
         struct move {
             piece piece_moved {};
             std::uint64_t bit_mask {};
+
+            [[nodiscard]] cordinate to_cordinate() const;
         };
 
         using bitboard_array = std::array<std::uint64_t, 12>;
@@ -96,10 +105,6 @@ namespace esochess {
 
         void make_move(const move& move_to_make);
 
-        struct cordinate {
-            int x;
-            int y;
-        };
 
         static std::vector<cordinate> get_cordinates_from_bits(std::uint64_t bits);
         static std::uint64_t get_bits_from_cordinate(const cordinate& cord);
