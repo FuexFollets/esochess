@@ -3,7 +3,6 @@
 #include <bitset>
 #include <cctype>
 #include <cstdlib>
-#include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -132,15 +131,11 @@ namespace esochess {
         std::array<std::array<piece, 8>, 8> exported_grid {};
 
         for (const bitboard::piece piece : bitboard::pieces::all) {
-            std::cout << "Piece: " << piece.symbol << '\n';
             const std::uint64_t bits {_pieces_bit_board[piece.index]};
-
-            std::cout << "Bits: " << std::bitset<64>(bits) << '\n';
 
             std::vector<bitboard::cordinate> cordinates {get_cordinates_from_bits(bits)};
 
             for (const auto [x_cordinate, y_cordinate] : cordinates) {
-                std::cout << "X: " << x_cordinate << " Y: " << y_cordinate << '\n';
 
                 exported_grid.at(y_cordinate).at(x_cordinate) = piece;
             }
