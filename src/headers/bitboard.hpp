@@ -21,6 +21,10 @@ namespace esochess {
         };
 
         struct cordinate {
+            cordinate() = default;
+            cordinate(int assigned_x, int assigned_y);
+            explicit cordinate(std::uint64_t bit_mask);
+
             int x;
             int y;
 
