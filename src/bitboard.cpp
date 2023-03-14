@@ -11,6 +11,15 @@
 #include "headers/bitboard.hpp"
 
 namespace esochess {
+    bitboard::cordinate::cordinate(int assigned_x, int assigned_y) : x {assigned_x}, y {assigned_y} {}
+
+    bitboard::cordinate::cordinate(std::uint64_t bit_mask) {
+        const int bit_position {std::countl_zero(bit_mask)};
+
+        x = bit_position % 8;
+        y = bit_position / 8;
+    }
+
     std::string bitboard::cordinate::to_string() const {
         const char column {static_cast<char>(x + 'a')};
         const char rank {static_cast<char>(y + '1')};
@@ -19,14 +28,8 @@ namespace esochess {
     }
 
     std::tuple<bitboard::cordinate, bitboard::cordinate> bitboard::move::to_cordinate() const {
-        const int from_x {std::countl_zero(bit_mask_from) % 8};
-        const int from_y {std::countl_zero(bit_mask_from) / 8};
-
-        const int to_x {std::countl_zero(bit_mask_to) % 8};
-        const int to_y {std::countl_zero(bit_mask_to) / 8};
-
-        return std::make_tuple(bitboard::cordinate {from_x, from_y},
-                bitboard::cordinate {to_x, to_y});
+        return std::make_tuple(bitboard::cordinate {bit_mask_from},
+                bitboard::cordinate {bit_mask_to});
     }
 
     bitboard::bitboard(bitboard_array assigned_bitboard_array, Turn assigned_turn,
@@ -130,10 +133,9 @@ namespace esochess {
         std::vector<bitboard::cordinate> cordinates;
 
         while (bits != 0x0000'0000) {
-            const int bit_position {std::countl_zero(bits)};
 
-            cordinates.emplace_back(cordinate {bit_position % 8, bit_position / 8});
-
+            const cordinate cordinate_from_bits {bits};
+            cordinates.emplace_back(cordinate_from_bits);
             const std::uint64_t bit_mask {~std::bit_floor(bits)};
 
             bits = bits & bit_mask;
@@ -153,9 +155,7 @@ namespace esochess {
             const std::uint64_t bits {_pieces_bit_board[piece.index]};
 
             std::vector<bitboard::cordinate> cordinates {get_cordinates_from_bits(bits)};
-
             for (const auto [x_cordinate, y_cordinate] : cordinates) {
-
                 exported_grid.at(y_cordinate).at(x_cordinate) = piece;
             }
         }
