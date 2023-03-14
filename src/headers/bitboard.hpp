@@ -71,7 +71,10 @@ namespace esochess {
         public:
 
         bitboard() = default;
+        bitboard(const bitboard& other) = default;
+
         explicit bitboard(const std::string& fen);
+
         bitboard(bitboard_array assigned_bitboard_array, Turn assigned_turn,
                 castle_rights assigned_castle_rights,
                 std::optional<std::uint64_t> assigned_en_passant_square,
@@ -86,6 +89,10 @@ namespace esochess {
 
         [[nodiscard]] std::string export_fen() const;
         [[nodiscard]] std::array<std::array<piece, 8>, 8> export_grid() const;
+
+        [[nodiscard]] bool is_legal_position() const;
+        [[nodiscard]] std::vector<move> all_maybe_legal_moves() const;
+        [[nodiscard]] std::vector<move> all_legal_moves() const;
 
         void make_move(const move& move_to_make);
 
