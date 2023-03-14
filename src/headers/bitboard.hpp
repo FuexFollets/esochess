@@ -50,6 +50,13 @@ namespace esochess {
                 white_pawn, white_knight, white_bishop, white_rook, white_queen, white_king,
                 black_pawn, black_knight, black_bishop, black_rook, black_queen, black_king
             };
+
+            constexpr static std::array<piece, 6> all_white_pieces {
+                white_pawn, white_knight, white_bishop, white_rook, white_queen, white_king
+            };
+            constexpr static std::array<piece, 6> all_black_pieces {
+                black_pawn, black_knight, black_bishop, black_rook, black_queen, black_king
+            };
         };
 
         struct castle_rights {
@@ -108,7 +115,6 @@ namespace esochess {
         [[nodiscard]] std::vector<move> all_legal_moves() const;
 
         void make_move(const move& move_to_make);
-
 
         static std::vector<cordinate> get_cordinates_from_bits(std::uint64_t bits);
         static std::uint64_t get_bits_from_cordinate(const cordinate& cord);
