@@ -9,9 +9,8 @@
 #include <string>
 #include <vector>
 
-#include "move.hpp"
-
 namespace esochess {
+
     struct bitboard {
         enum Turn {White, Black};
 
@@ -48,6 +47,11 @@ namespace esochess {
             bool white_queen {};
             bool black_king {};
             bool black_queen {};
+        };
+
+        struct move {
+            piece piece_moved {};
+            std::uint64_t bit_mask {};
         };
 
         using bitboard_array = std::array<std::uint64_t, 12>;
@@ -94,5 +98,6 @@ namespace esochess {
         static std::uint64_t get_bits_from_cordinate(const cordinate& cord);
     };
 }
+
 
 #endif
