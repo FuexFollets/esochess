@@ -3,6 +3,14 @@
 #include "headers/movements.hpp"
 
 namespace esochess {
+    bool in_bounds(int x_cordinate, int y_cordinate) {
+        return x_cordinate >= 0 && x_cordinate < 8 && y_cordinate >= 0 && y_cordinate < 8;
+    }
+
+    bool in_bounds(bitboard::cordinate cordinate) {
+        return in_bounds(cordinate.x, cordinate.y);
+    }
+
     std::vector<bitboard::cordinate> movements_from_square_as_pawn(bitboard::Turn color,
             std::uint64_t starting_square) {
         std::vector<bitboard::cordinate> to_squares {};
@@ -129,19 +137,32 @@ namespace esochess {
         return to_squares;
     }
 
-    std::vector<bitboard::cordinate> movements_from_square_as_king(std::uint64_t starting_square) {
+    std::vector<bitboard::cordinate> movements_from_square_as_king(bitboard::Turn color,
+            std::uint64_t starting_square) {
         bitboard::cordinate cordinate_at_square {starting_square};
+        std::vector<bitboard::cordinate> to_squares {};
 
-        return std::vector<bitboard::cordinate> {
-            bitboard::cordinate {cordinate_at_square.x, cordinate_at_square.y - 1},
-            bitboard::cordinate {cordinate_at_square.x, cordinate_at_square.y + 1},
-            bitboard::cordinate {cordinate_at_square.x - 1, cordinate_at_square.y},
-            bitboard::cordinate {cordinate_at_square.x + 1, cordinate_at_square.y},
-            bitboard::cordinate {cordinate_at_square.x - 1, cordinate_at_square.y - 1},
-            bitboard::cordinate {cordinate_at_square.x - 1, cordinate_at_square.y + 1},
-            bitboard::cordinate {cordinate_at_square.x + 1, cordinate_at_square.y - 1},
-            bitboard::cordinate {cordinate_at_square.x + 1, cordinate_at_square.y + 1}
-        };
+        for (const auto& [x_difference, y_difference]: {
+            std::pair {0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}}) {
+            if (!in_bounds(cordinate_at_square.x + x_difference, cordinate_at_square.y + y_difference))
+                { continue; }
+
+            to_squares.emplace_back(cordinate_at_square.x + x_difference, cordinate_at_square.y + y_difference);
+        }
+
+        if (color == bitboard::Turn::White) {
+            if (starting_square == bitboard::get_bits_from_cordinate(bitboard::cordinate {4, 0})) {
+                to_squares.emplace_back(6, 0);
+                to_squares.emplace_back(2, 0);
+            }
+        } else {
+            if (starting_square == bitboard::get_bits_from_cordinate(bitboard::cordinate {4, 7})) {
+                to_squares.emplace_back(6, 7);
+                to_squares.emplace_back(2, 7);
+            }
+        }
+
+        return to_squares;
     }
 
     std::vector<bitboard::cordinate> movements_from_square(std::uint64_t starting_square, bitboard::piece chess_piece) {

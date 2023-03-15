@@ -22,7 +22,8 @@ namespace esochess {
     std::vector<bitboard::cordinate> movements_from_square_as_bishop(std::uint64_t starting_square);
     std::vector<bitboard::cordinate> movements_from_square_as_rook(std::uint64_t starting_square);
     std::vector<bitboard::cordinate> movements_from_square_as_queen(std::uint64_t starting_square);
-    std::vector<bitboard::cordinate> movements_from_square_as_king(std::uint64_t starting_square);
+    std::vector<bitboard::cordinate> movements_from_square_as_king(bitboard::Turn color,
+            std::uint64_t starting_square);
 }
 
 #endif
