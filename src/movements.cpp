@@ -191,8 +191,12 @@ namespace esochess {
             return movements_from_square_as_queen(starting_square);
         }
 
-        case bitboard::pieces::white_king.index: case bitboard::pieces::black_king.index: {
-            return movements_from_square_as_king(starting_square);
+        case bitboard::pieces::white_king.index: {
+            return movements_from_square_as_king(bitboard::Turn::White, starting_square);
+        }
+
+        case bitboard::pieces::black_king.index: {
+            return movements_from_square_as_king(bitboard::Turn::Black, starting_square);
         }
 
             default: break;
