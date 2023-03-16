@@ -21,6 +21,7 @@ namespace esochess {
             Turn color {None};
 
             bool operator==(const piece&) const = default;
+            piece& operator=(const piece&) = default;
         };
 
         struct cordinate {
@@ -32,8 +33,10 @@ namespace esochess {
             int y;
 
             [[nodiscard]] std::string to_string() const;
+            [[nodiscard]] std::uint64_t to_bits() const;
 
             bool operator==(const cordinate&) const = default;
+            cordinate& operator=(const cordinate&) = default;
         };
 
         struct pieces {
@@ -129,6 +132,7 @@ namespace esochess {
 
         static std::vector<cordinate> get_cordinates_from_bits(std::uint64_t bits);
         static std::uint64_t get_bits_from_cordinate(const cordinate& cord);
+        static Turn opposite_turn(Turn turn);
     };
 }
 
