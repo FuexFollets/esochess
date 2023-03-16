@@ -82,7 +82,7 @@ namespace esochess {
             [[nodiscard]] std::tuple<cordinate, cordinate> to_cordinate() const;
 
             move() = default;
-            move(piece assigned_piece_moved, std::uint64_t assigned_bit_mask_from,
+            move(const piece& assigned_piece_moved, std::uint64_t assigned_bit_mask_from,
                     std::uint64_t assigned_bit_mask_to);
         };
 

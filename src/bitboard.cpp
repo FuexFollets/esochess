@@ -27,6 +27,17 @@ namespace esochess {
         return std::string {column} + rank;
     }
 
+    std::uint64_t bitboard::cordinate::to_bits() const {
+        return get_bits_from_cordinate(*this);
+
+    }
+
+    bitboard::move::move(const piece& assigned_piece_moved, std::uint64_t assigned_bit_mask_from,
+            std::uint64_t assigned_bit_mask_to) :
+        piece_moved {assigned_piece_moved},
+        bit_mask_from {assigned_bit_mask_from},
+        bit_mask_to {assigned_bit_mask_to} {}
+
     std::tuple<bitboard::cordinate, bitboard::cordinate> bitboard::move::to_cordinate() const {
         return std::make_tuple(bitboard::cordinate {bit_mask_from},
                 bitboard::cordinate {bit_mask_to});
@@ -146,6 +157,11 @@ namespace esochess {
 
     std::uint64_t bitboard::get_bits_from_cordinate(const cordinate& cord) {
         return std::uint64_t {1} << (63 - (cord.x + cord.y * 8));
+    }
+
+    bitboard::Turn bitboard::opposite_turn(Turn turn) {
+        if (turn == Turn::White) { return Turn::Black; }
+        return Turn::White;
     }
 
     std::array<std::array<bitboard::piece, 8>, 8> bitboard::export_grid() const {
