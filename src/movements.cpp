@@ -85,62 +85,65 @@ namespace esochess {
         return to_squares;
     }
 
-    std::vector<bitboard::cordinate> movements_from_square_as_bishop(std::uint64_t starting_square) {
-        std::vector<bitboard::cordinate> to_squares {};
+    std::vector<std::vector<bitboard::cordinate>> movements_from_square_as_bishop(std::uint64_t starting_square) {
+        std::vector<std::vector<bitboard::cordinate>> directions {};
         bitboard::cordinate cordinate_at_square {starting_square};
 
         for (const int x_difference_multiple: {-1, 1}) {
             for (const int y_difference_multiple: {-1, 1}) {
+                std::vector<bitboard::cordinate> squares_in_direction {};
+
                 for (int i = 1; i < 8; ++i) {
                     if (!in_bounds(cordinate_at_square.x + i * x_difference_multiple, cordinate_at_square.y + i * y_difference_multiple))
                         { break; }
 
-                    to_squares.emplace_back(cordinate_at_square.x + i * x_difference_multiple, cordinate_at_square.y + i * y_difference_multiple);
+                    squares_in_direction.emplace_back(cordinate_at_square.x + i * x_difference_multiple, cordinate_at_square.y + i * y_difference_multiple);
                 }
+                directions.push_back(squares_in_direction);
             }
         }
 
-        return to_squares;
+        return directions;
     }
 
-    std::vector<bitboard::cordinate> movements_from_square_as_rook(std::uint64_t starting_square) {
-        std::vector<bitboard::cordinate> to_squares {};
+    std::vector<std::vector<bitboard::cordinate>> movements_from_square_as_rook(std::uint64_t starting_square) {
+        std::vector<std::vector<bitboard::cordinate>> directions {};
         bitboard::cordinate cordinate_at_square {starting_square};
 
         for (const auto& [x_difference_multiple, y_difference_multiple]: {
             std::pair {0, -1}, {0, 1}, {-1, 0}, {1, 0}}) {
+            std::vector<bitboard::cordinate> squares_in_direction {};
+
             for (int i = 1; i < 8; ++i) {
                 if (!in_bounds(cordinate_at_square.x + i * x_difference_multiple, cordinate_at_square.y + i * y_difference_multiple))
                     { break; }
 
-                to_squares.emplace_back(cordinate_at_square.x + i * x_difference_multiple, cordinate_at_square.y + i * y_difference_multiple);
+                squares_in_direction.emplace_back(cordinate_at_square.x + i * x_difference_multiple, cordinate_at_square.y + i * y_difference_multiple);
             }
+
+            directions.push_back(squares_in_direction);
         }
 
-        return to_squares;
+        return directions;
     }
 
-    std::vector<bitboard::cordinate> movements_from_square_as_queen(std::uint64_t starting_square) {
-        std::vector<bitboard::cordinate> to_squares {};
+    std::vector<std::vector<bitboard::cordinate>> movements_from_square_as_queen(std::uint64_t starting_square) {
+        std::vector<std::vector<bitboard::cordinate>> directions {};
         bitboard::cordinate cordinate_at_square {starting_square};
 
-        for (const auto& [x_difference_multiple, y_difference_multiple]: {
-            std::pair {0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}}) {
-            for (int i = 1; i < 8; ++i) {
-                if (!in_bounds(cordinate_at_square.x + i * x_difference_multiple, cordinate_at_square.y + i * y_difference_multiple))
-                    { break; }
+        const auto rook_directions {movements_from_square_as_rook(starting_square)};
+        const auto bishop_directions {movements_from_square_as_bishop(starting_square)};
 
-                to_squares.emplace_back(cordinate_at_square.x + i * x_difference_multiple, cordinate_at_square.y + i * y_difference_multiple);
-            }
-        }
+        directions.insert(directions.end(), rook_directions.cbegin(), rook_directions.cend());
+        directions.insert(directions.end(), bishop_directions.cbegin(), bishop_directions.cend());
 
-        return to_squares;
+        return directions;
     }
 
     std::vector<bitboard::cordinate> movements_from_square_as_king(bitboard::Turn color,
             std::uint64_t starting_square) {
-        bitboard::cordinate cordinate_at_square {starting_square};
         std::vector<bitboard::cordinate> to_squares {};
+        bitboard::cordinate cordinate_at_square {starting_square};
 
         for (const auto& [x_difference, y_difference]: {
             std::pair {0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}}) {
@@ -163,45 +166,5 @@ namespace esochess {
         }
 
         return to_squares;
-    }
-
-    std::vector<bitboard::cordinate> movements_from_square(std::uint64_t starting_square, bitboard::piece chess_piece) {
-        switch (chess_piece.index) {
-        case bitboard::pieces::white_pawn.index: {
-            return movements_from_square_as_pawn(bitboard::Turn::White, starting_square);
-        }
-
-        case bitboard::pieces::black_pawn.index: {
-            return movements_from_square_as_pawn(bitboard::Turn::Black, starting_square);
-        }
-
-        case bitboard::pieces::white_knight.index: case bitboard::pieces::black_knight.index: {
-            return movements_from_square_as_knight(starting_square);
-        }
-
-        case bitboard::pieces::white_bishop.index: case bitboard::pieces::black_bishop.index: {
-            return movements_from_square_as_bishop(starting_square);
-        }
-
-        case bitboard::pieces::white_rook.index: case bitboard::pieces::black_rook.index: {
-            return movements_from_square_as_rook(starting_square);
-        }
-
-        case bitboard::pieces::white_queen.index: case bitboard::pieces::black_queen.index: {
-            return movements_from_square_as_queen(starting_square);
-        }
-
-        case bitboard::pieces::white_king.index: {
-            return movements_from_square_as_king(bitboard::Turn::White, starting_square);
-        }
-
-        case bitboard::pieces::black_king.index: {
-            return movements_from_square_as_king(bitboard::Turn::Black, starting_square);
-        }
-
-            default: break;
-        }
-
-        return std::vector<bitboard::cordinate> {};
     }
 }
