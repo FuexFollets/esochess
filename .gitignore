@@ -33,3 +33,6 @@
 
 # Compilations
 dist/*
+
+# Clangd files
+.cache/
