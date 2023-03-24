@@ -120,13 +120,32 @@ namespace esochess {
         [[nodiscard]] std::string export_fen() const;
         [[nodiscard]] std::array<std::array<piece, 8>, 8> export_grid() const;
 
-        [[nodiscard]] bool is_legal_position() const;
+        struct king_can_be_taken_result {
+            bool can_be_taken;
+
+            std::vector<move> moves;
+        };
+
+        struct castle_squares_are_controlled_result {
+            castle_rights rights;
+
+            std::vector<move> moves;
+        };
+
+        [[nodiscard]] king_can_be_taken_result king_can_be_taken() const;
+        [[nodiscard]] king_can_be_taken_result king_can_be_taken(const std::vector<move>& all_moves) const;
+        [[nodiscard]] castle_squares_are_controlled_result
+            castle_squares_are_controlled() const;
+        [[nodiscard]] castle_squares_are_controlled_result
+            castle_squares_are_controlled(const std::vector<move>& all_moves) const;
+
+        [[nodiscard]] std::vector<move> all_moves() const;
         [[nodiscard]] std::vector<move> all_maybe_legal_moves() const;
         [[nodiscard]] std::vector<move> all_legal_moves() const;
         [[nodiscard]] Turn piece_color_at_square(std::uint64_t bit_mask) const;
         [[nodiscard]] Turn piece_color_at_square(const cordinate& cord) const;
 
-        void make_move(const move& move_to_make);
+        bitboard& make_move(const move& move_to_make);
 
         static std::vector<cordinate> get_cordinates_from_bits(std::uint64_t bits);
         static std::uint64_t get_bits_from_cordinate(const cordinate& cord);
