@@ -164,4 +164,24 @@ namespace esochess {
 
         return maybe_legal_moves;
     }
+
+    std::vector<bitboard::move> bitboard::all_legal_moves() const {
+        const std::vector<move> maybe_legal_moves {all_maybe_legal_moves()};
+        std::vector<move> legal_moves {};
+
+        for (const move& maybe_legal_move : maybe_legal_moves) {
+            bitboard bitboard_after_move {*this};
+            bitboard_after_move.make_move(maybe_legal_move);
+
+            const auto [king_capturable, opponents_moves] {bitboard_after_move.king_can_be_taken()};
+            const auto [castle_squares_controlled, opponents_moves_after_move] {
+                bitboard_after_move.castle_squares_are_controlled(opponents_moves)};
+
+            if (king_capturable ||
+                    (bitboard::move_is_castle(maybe_legal_move) && castle_squares_controlled)) {
+                continue;
+            }
+        }
+
+    }
 }
