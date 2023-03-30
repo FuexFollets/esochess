@@ -3,6 +3,7 @@
 #pragma once
 
 #include <array>
+#include <cstddef>
 #include <cstdint>
 #include <string>
 #include <type_traits>
@@ -25,6 +26,8 @@ namespace esochess {
             PieceType piece_type;
             Turn turn;
             char symbol;
+
+            std::size_t bitboard_index;
         };
 
         struct cordinate {
@@ -49,19 +52,19 @@ namespace esochess {
 
         struct pieces {
             static constexpr piece
-                white_pawn {PieceType::Pawn, Turn::White, 'P'},
-                white_knight {PieceType::Knight, Turn::White, 'N'},
-                white_bishop {PieceType::Bishop, Turn::White, 'B'},
-                white_rook {PieceType::Rook, Turn::White, 'R'},
-                white_queen {PieceType::Queen, Turn::White, 'Q'},
-                white_king {PieceType::King, Turn::White, 'K'},
-                black_pawn {PieceType::Pawn, Turn::Black, 'p'},
-                black_knight {PieceType::Knight, Turn::Black, 'n'},
-                black_bishop {PieceType::Bishop, Turn::Black, 'b'},
-                black_rook {PieceType::Rook, Turn::Black, 'r'},
-                black_queen {PieceType::Queen, Turn::Black, 'q'},
-                black_king {PieceType::King, Turn::Black, 'k'},
-                empty_piece {PieceType::Pawn, Turn::None, ' '};
+                white_pawn {PieceType::Pawn, Turn::White, 'P', 0},
+                white_knight {PieceType::Knight, Turn::White, 'N', 1},
+                white_bishop {PieceType::Bishop, Turn::White, 'B', 2},
+                white_rook {PieceType::Rook, Turn::White, 'R', 3},
+                white_queen {PieceType::Queen, Turn::White, 'Q', 4},
+                white_king {PieceType::King, Turn::White, 'K', 5},
+                black_pawn {PieceType::Pawn, Turn::Black, 'p', 6},
+                black_knight {PieceType::Knight, Turn::Black, 'n', 7},
+                black_bishop {PieceType::Bishop, Turn::Black, 'b', 8},
+                black_rook {PieceType::Rook, Turn::Black, 'r', 9},
+                black_queen {PieceType::Queen, Turn::Black, 'q', 10},
+                black_king {PieceType::King, Turn::Black, 'k', 11},
+                empty_piece {PieceType::Pawn, Turn::None, ' ', std::string::npos};
 
             static constexpr std::array<piece, 12> all_pieces {
                 white_pawn, white_knight, white_bishop, white_rook, white_queen, white_king,
@@ -77,11 +80,20 @@ namespace esochess {
             };
         };
 
-        struct castle_rights {
+        struct en_passant_square {
+            std::uint8_t column_index;
+            Turn captureable_piece_color;
+
+            bool operator==(const en_passant_square& other) const = default;
+        };
+
+        struct castle_rights_collection {
             bool white_king_side;
             bool white_queen_side;
             bool black_king_side;
             bool black_queen_side;
+
+            bool operator==(const castle_rights_collection& other) const = default;
         };
 
         enum class MoveTypes {
@@ -149,6 +161,22 @@ namespace esochess {
 
         [[nodiscard]] std::array<std::array<piece, 8>, 8> to_array() const;
         [[nodiscard]] std::string to_fen();
+
+        [[nodiscard]] std::array<bit_representation, 12>& bitboards() const;
+        [[nodiscard]] Turn turn() const;
+        [[nodiscard]] en_passant_square en_passant() const;
+        [[nodiscard]] castle_rights_collection castle_rights() const;
+        [[nodiscard]] int halfmove_clock() const;
+        [[nodiscard]] int fullmove_clock() const;
+
+        private:
+
+        std::array<bit_representation, 12> _bitboards;
+        Turn _turn;
+        en_passant_square _en_passant;
+        castle_rights_collection _castle_rights;
+        int _halfmove_clock;
+        int _fullmove_number;
     };
 }
 
