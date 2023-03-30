@@ -5,6 +5,7 @@
 #include <array>
 #include <cstdint>
 #include <string>
+#include <type_traits>
 
 namespace esochess {
     struct bitboard {
@@ -82,6 +83,60 @@ namespace esochess {
             bool black_king_side;
             bool black_queen_side;
         };
+
+        enum class MoveTypes {
+            Normal, Capture, EnPassant, Castle, Promotion, PromotionCapture
+        };
+
+        struct move_normal_base {
+            bit_representation from;
+            bit_representation to;
+        };
+
+        struct move_capture_base {
+            bit_representation from;
+            bit_representation to;
+        };
+
+
+        struct move_en_passant_base {
+            Turn turn;
+        };
+
+        struct move_castle_base {
+            enum class CastleType {KingSide, QueenSide};
+
+            Turn turn;
+            CastleType castle_type;
+        };
+
+        struct move_promotion_base {
+            bit_representation from;
+            PieceType promotion_type;
+        };
+
+        struct move_promotion_capture_base {
+            bit_representation from;
+            PieceType promotion_type;
+        };
+
+        template <MoveTypes _move_type> struct move :
+            std::conditional_t<_move_type == MoveTypes::Normal, move_normal_base, void>,
+            std::conditional_t<_move_type == MoveTypes::Capture, move_capture_base, void>,
+            std::conditional_t<_move_type == MoveTypes::EnPassant, move_en_passant_base, void>,
+            std::conditional_t<_move_type == MoveTypes::Castle, move_castle_base, void>,
+            std::conditional_t<_move_type == MoveTypes::Promotion, move_promotion_base, void>,
+            std::conditional_t<_move_type == MoveTypes::PromotionCapture, move_promotion_capture_base, void> {
+
+            static constexpr MoveTypes move_type {_move_type};
+        };
+
+        bitboard& make_move(const move<MoveTypes::Normal>& move);
+        bitboard& make_move(const move<MoveTypes::Capture>& move);
+        bitboard& make_move(const move<MoveTypes::EnPassant>& move);
+        bitboard& make_move(const move<MoveTypes::Castle>& move);
+        bitboard& make_move(const move<MoveTypes::Promotion>& move);
+        bitboard& make_move(const move<MoveTypes::PromotionCapture>& move);
 
         bitboard() = default;
         bitboard(const bitboard& other) = default;
