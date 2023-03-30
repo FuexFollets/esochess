@@ -142,6 +142,13 @@ namespace esochess {
         bitboard(const bitboard& other) = default;
         bitboard(bitboard&& other) = default;
         explicit bitboard(const std::string& fen_position);
+
+        bitboard& operator=(const bitboard& other) = default;
+        bool operator==(const bitboard& other) const = default;
+        bool operator!=(const bitboard& other) const = default;
+
+        [[nodiscard]] std::array<std::array<piece, 8>, 8> to_array() const;
+        [[nodiscard]] std::string to_fen();
     };
 }
 
