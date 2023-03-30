@@ -1,0 +1,19 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-g",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-std=c++23",
+      "-o",
+      "./dist/esochess",
+      "src/main.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/esochess",
+    "file": "/home/fuexfollets/Projects/esochess/src/main.cpp",
+    "output": "/home/fuexfollets/Projects/esochess/dist/esochess"
+  }
+]
