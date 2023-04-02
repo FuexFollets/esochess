@@ -103,55 +103,43 @@ namespace esochess {
             Normal, Capture, EnPassant, Castle, Promotion, PromotionCapture
         };
 
-        struct move_normal_base {
+        struct move_normal {
             bit_representation from;
             bit_representation to;
         };
 
-        struct move_capture_base {
+        struct move_capture {
             bit_representation from;
             bit_representation to;
         };
 
-
-        struct move_en_passant_base {
+        struct move_en_passant {
             Turn turn;
         };
 
-        struct move_castle_base {
+        struct move_castle {
             enum class CastleType {KingSide, QueenSide};
 
             Turn turn;
             CastleType castle_type;
         };
 
-        struct move_promotion_base {
+        struct move_promotion {
             bit_representation from;
             PieceType promotion_type;
         };
 
-        struct move_promotion_capture_base {
+        struct move_promotion_capture {
             bit_representation from;
             PieceType promotion_type;
         };
 
-        template <MoveTypes _move_type> struct move :
-            std::conditional_t<_move_type == MoveTypes::Normal, move_normal_base, void>,
-            std::conditional_t<_move_type == MoveTypes::Capture, move_capture_base, void>,
-            std::conditional_t<_move_type == MoveTypes::EnPassant, move_en_passant_base, void>,
-            std::conditional_t<_move_type == MoveTypes::Castle, move_castle_base, void>,
-            std::conditional_t<_move_type == MoveTypes::Promotion, move_promotion_base, void>,
-            std::conditional_t<_move_type == MoveTypes::PromotionCapture, move_promotion_capture_base, void> {
-
-            static constexpr MoveTypes move_type {_move_type};
-        };
-
-        bitboard& make_move(const move<MoveTypes::Normal>& move);
-        bitboard& make_move(const move<MoveTypes::Capture>& move);
-        bitboard& make_move(const move<MoveTypes::EnPassant>& move);
-        bitboard& make_move(const move<MoveTypes::Castle>& move);
-        bitboard& make_move(const move<MoveTypes::Promotion>& move);
-        bitboard& make_move(const move<MoveTypes::PromotionCapture>& move);
+        bitboard& make_move(const move_normal& move);
+        bitboard& make_move(const move_capture& move);
+        bitboard& make_move(const move_en_passant& move);
+        bitboard& make_move(const move_castle& move);
+        bitboard& make_move(const move_promotion& move);
+        bitboard& make_move(const move_promotion_capture& move);
 
         bitboard() = default;
         bitboard(const bitboard& other) = default;
@@ -172,14 +160,41 @@ namespace esochess {
         [[nodiscard]] int halfmove_clock() const;
         [[nodiscard]] int fullmove_clock() const;
 
+        struct moves_listing {
+            std::vector<move_normal> normal_moves;
+            std::vector<move_capture> capture_moves;
+            std::vector<move_castle> castle_moves;
+            std::vector<move_en_passant> en_passant_moves;
+            std::vector<move_promotion> promotion_moves;
+            std::vector<move_promotion_capture> promotion_capture_moves;
+        };
+
+        [[nodiscard]] moves_listing available_moves() const;
+        [[nodiscard]] bit_representation controlled_squares(Turn checked_turn) const;
+
+        static Turn opposite_turn(Turn turn);
+
         private:
 
-        std::array<bit_representation, 12> _bitboards;
-        Turn _turn;
-        en_passant_square _en_passant;
-        castle_rights_collection _castle_rights;
-        int _halfmove_clock;
-        int _fullmove_number;
+        std::array<bit_representation, 12> _bitboards {};
+        Turn _turn {};
+        en_passant_square _en_passant {};
+        castle_rights_collection _castle_rights {};
+        int _halfmove_clock {};
+        int _fullmove_number {};
+
+        struct cached_moves_listing_t {
+            int full_move_calculated; // The fullmove in which these move listing were calculated
+
+            std::optional<moves_listing> white_pieces;
+            std::optional<moves_listing> black_pieces;
+
+            std::optional<bit_representation> white_controlled_squares;
+            std::optional<bit_representation> black_controlled_squares;
+
+            bool operator==(const cached_moves_listing_t&) const;
+            bool operator!=(const cached_moves_listing_t&) const;
+        } _cached_moves_listing;
     };
 }
 
