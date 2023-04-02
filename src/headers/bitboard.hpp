@@ -5,8 +5,11 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <type_traits>
+#include <variant>
+#include <vector>
 
 namespace esochess {
     struct bitboard {
