@@ -46,6 +46,7 @@ namespace esochess {
 
             [[nodiscard]] bit_representation to_bit_representation() const;
             [[nodiscard]] std::string to_string() const;
+            [[nodiscard]] std::string to_fancy_string() const;
 
             private:
 
