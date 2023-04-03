@@ -184,7 +184,7 @@ namespace esochess {
         bool operator!=(const bitboard& other) const = default;
 
         [[nodiscard]] std::array<std::array<piece, 8>, 8> to_grid() const;
-        [[nodiscard]] std::string to_fen();
+        [[nodiscard]] std::string to_fen() const;
 
         [[nodiscard]] std::array<bit_representation, 12> bitboards() const;
         [[nodiscard]] Turn turn() const;
