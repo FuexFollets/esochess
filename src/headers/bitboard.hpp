@@ -90,6 +90,10 @@ namespace esochess {
             static constexpr std::array<piece, 4> black_pawn_promotion_pieces {
                 black_knight, black_bishop, black_rook, black_queen
             };
+
+            static piece from_symbol(char symbol);
+            static piece from_index(std::size_t index);
+            static piece from_type_and_turn(PieceType type, Turn turn);
         };
 
         struct en_passant_square {
