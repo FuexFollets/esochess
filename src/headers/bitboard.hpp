@@ -82,6 +82,14 @@ namespace esochess {
             static constexpr std::array<piece, 6> black_pieces {
                 black_pawn, black_knight, black_bishop, black_rook, black_queen, black_king
             };
+
+            static constexpr std::array<piece, 4> white_pawn_promotion_pieces {
+                white_knight, white_bishop, white_rook, white_queen
+            };
+
+            static constexpr std::array<piece, 4> black_pawn_promotion_pieces {
+                black_knight, black_bishop, black_rook, black_queen
+            };
         };
 
         struct en_passant_square {
