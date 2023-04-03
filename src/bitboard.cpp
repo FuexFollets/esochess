@@ -36,8 +36,8 @@ namespace esochess {
         return std::string {static_cast<char>('a' + _x)} + std::to_string(_y + 1);
     }
 
-    std::array<std::array<bitboard::piece, 8>, 8> bitboard::to_grid() const {
-        std::array<std::array<bitboard::piece, 8>, 8> grid {};
+    bitboard::chess_grid bitboard::to_grid() const {
+        bitboard::chess_grid grid {};
 
         for (const bitboard::piece& chess_piece: pieces::all_pieces) {
             const std::vector<bitboard::cordinate> cordinates {
