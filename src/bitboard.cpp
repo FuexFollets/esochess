@@ -14,4 +14,14 @@ namespace esochess {
     bitboard::cordinate::cordinate(bitboard::bit_representation bit_mask) :
         _x {std::countr_zero(bit_mask) % 8},
         _y {std::countr_zero(bit_mask / 8)} {}
+
+    int bitboard::cordinate::pos_x() const {
+        return _x;
+    }
+
+    int bitboard::cordinate::pos_y() const {
+        return _y;
+    }
+
+
 }
