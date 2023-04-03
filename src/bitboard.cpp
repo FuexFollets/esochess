@@ -37,4 +37,8 @@ namespace esochess {
     std::array<bitboard::bit_representation, 12> bitboard::bitboards() const {
         return _bitboards;
     }
+
+    bitboard::Turn bitboard::opposite_turn(Turn turn) {
+        return (turn == Turn::White) ? Turn::Black : Turn::White;
+    }
 }
