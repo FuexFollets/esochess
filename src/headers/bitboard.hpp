@@ -183,7 +183,8 @@ namespace esochess {
         bool operator==(const bitboard& other) const = default;
         bool operator!=(const bitboard& other) const = default;
 
-        [[nodiscard]] std::array<std::array<piece, 8>, 8> to_grid() const;
+        using chess_grid = std::array<std::array<piece, 8>, 8>;
+        [[nodiscard]] chess_grid to_grid() const;
         [[nodiscard]] std::string to_fen() const;
 
         [[nodiscard]] std::array<bit_representation, 12> bitboards() const;
