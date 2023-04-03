@@ -41,4 +41,19 @@ namespace esochess {
     bitboard::Turn bitboard::opposite_turn(Turn turn) {
         return (turn == Turn::White) ? Turn::Black : Turn::White;
     }
+
+    std::vector<bitboard::cordinate> bitboard::cordinate_from_bit_representation(bitboard::bit_representation bits) {
+        std::vector<bitboard::cordinate> cordinates;
+
+        while (bits != 0x0000'0000) {
+
+            const cordinate cordinate_from_bits {bits};
+            cordinates.emplace_back(cordinate_from_bits);
+            const std::uint64_t bit_mask {~std::bit_floor(bits)};
+
+            bits = bits & bit_mask;
+        }
+
+        return cordinates;
+    }
 }
