@@ -193,6 +193,7 @@ namespace esochess {
         [[nodiscard]] bit_representation controlled_squares(Turn checked_turn) const;
 
         static Turn opposite_turn(Turn turn);
+        static std::vector<cordinate> cordinate_from_bit_representation(bit_representation bits);
 
         private:
 
