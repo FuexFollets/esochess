@@ -23,5 +23,7 @@ namespace esochess {
         return _y;
     }
 
-
+    bitboard::bit_representation bitboard::cordinate::to_bit_representation() const {
+        return std::size_t {1} << (63 - (_x + _y * 8));
+    }
 }
