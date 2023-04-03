@@ -1,3 +1,4 @@
+#include <array>
 #include <bit>
 #include <string>
 
@@ -34,6 +35,23 @@ namespace esochess {
     std::string bitboard::cordinate::to_fancy_string() const {
         return std::string {static_cast<char>('a' + _x)} + std::to_string(_y + 1);
     }
+
+    std::array<std::array<bitboard::piece, 8>, 8> bitboard::to_grid() const {
+        std::array<std::array<bitboard::piece, 8>, 8> grid {};
+
+        for (const bitboard::piece& chess_piece: pieces::all_pieces) {
+            const std::vector<bitboard::cordinate> cordinates {
+                cordinate_from_bit_representation(_bitboards.at(chess_piece.bitboard_index))};
+
+            for (const bitboard::cordinate& cordinate: cordinates) {
+                grid.at(cordinate.pos_y())
+                    .at(cordinate.pos_x()) = chess_piece;
+            }
+        }
+
+        return grid;
+    }
+
     std::array<bitboard::bit_representation, 12> bitboard::bitboards() const {
         return _bitboards;
     }
