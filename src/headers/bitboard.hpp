@@ -186,6 +186,7 @@ namespace esochess {
         using chess_grid = std::array<std::array<piece, 8>, 8>;
         [[nodiscard]] chess_grid to_grid() const;
         [[nodiscard]] std::string to_fen() const;
+        [[nodiscard]] std::string to_fancy_string() const;
 
         [[nodiscard]] std::array<bit_representation, 12> bitboards() const;
         [[nodiscard]] Turn turn() const;
