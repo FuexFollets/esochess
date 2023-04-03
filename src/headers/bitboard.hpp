@@ -104,20 +104,28 @@ namespace esochess {
         };
 
         struct move_normal {
+            static constexpr std::size_t variant_index {0};
+
             bit_representation from;
             bit_representation to;
         };
 
         struct move_capture {
+            static constexpr std::size_t variant_index {1};
+
             bit_representation from;
             bit_representation to;
         };
 
         struct move_en_passant {
+            static constexpr std::size_t variant_index {2};
+
             Turn turn;
         };
 
         struct move_castle {
+            static constexpr std::size_t variant_index {3};
+
             enum class CastleType {KingSide, QueenSide};
 
             Turn turn;
@@ -125,14 +133,26 @@ namespace esochess {
         };
 
         struct move_promotion {
+            static constexpr std::size_t variant_index {4};
+
             bit_representation from;
             PieceType promotion_type;
         };
 
         struct move_promotion_capture {
+            static constexpr std::size_t variant_index {5};
+
             bit_representation from;
             PieceType promotion_type;
         };
+
+        using move = std::variant<
+            move_normal,
+            move_capture,
+            move_en_passant,
+            move_castle,
+            move_promotion,
+            move_promotion_capture>;
 
         bitboard& make_move(const move_normal& move);
         bitboard& make_move(const move_capture& move);
