@@ -214,7 +214,7 @@ namespace esochess {
 
         std::array<bit_representation, 12> _bitboards {};
         Turn _turn {};
-        en_passant_square _en_passant {};
+        std::optional<en_passant_square> _en_passant {};
         castle_rights_collection _castle_rights {};
         int _halfmove_clock {};
         int _fullmove_number {};
