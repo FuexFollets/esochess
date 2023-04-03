@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <array>
 #include <bit>
 #include <string>
@@ -38,6 +39,10 @@ namespace esochess {
 
     bitboard::chess_grid bitboard::to_grid() const {
         bitboard::chess_grid grid {};
+
+        for (std::array<piece, 8> row: grid) {
+            std::fill(row.begin(), row.end(), pieces::empty_piece);
+        }
 
         for (const bitboard::piece& chess_piece: pieces::all_pieces) {
             const std::vector<bitboard::cordinate> cordinates {
