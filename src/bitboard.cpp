@@ -34,4 +34,7 @@ namespace esochess {
     std::string bitboard::cordinate::to_fancy_string() const {
         return std::string {static_cast<char>('a' + _x)} + std::to_string(_y + 1);
     }
+    std::array<bitboard::bit_representation, 12> bitboard::bitboards() const {
+        return _bitboards;
+    }
 }
