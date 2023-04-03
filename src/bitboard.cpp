@@ -79,4 +79,22 @@ namespace esochess {
 
         return cordinates;
     }
+
+    bitboard::piece bitboard::pieces::from_symbol(char symbol) {
+        return *std::find_if(pieces::all_pieces.begin(), pieces::all_pieces.end(),
+                [symbol](const piece& chess_piece) {
+            return chess_piece.symbol == symbol;
+        });
+    }
+
+    bitboard::piece bitboard::pieces::from_index(std::size_t index) {
+        return pieces::all_pieces.at(index);
+    }
+
+    bitboard::piece bitboard::pieces::from_type_and_turn(PieceType type, Turn turn) {
+        return *std::find_if(pieces::all_pieces.begin(), pieces::all_pieces.end(),
+                [type, turn](const piece& chess_piece) {
+            return chess_piece.piece_type == type && chess_piece.turn == turn;
+        });
+    }
 }
