@@ -109,4 +109,38 @@ namespace esochess {
 
         return fen_position;
     }
+
+    std::string bitboard::to_fancy_string() const {
+        const bitboard::chess_grid grid {this -> to_grid()};
+
+        std::string fancy_string {};
+
+        std::string fen_board;
+        std::string fen_turn;
+        std::string fen_castle_rights;
+        std::string fen_en_passant;
+        std::string fen_halfmove_clock;
+        std::string fen_fullmove_number;
+
+        std::stringstream {this -> to_fen()} >> fen_board >> fen_turn
+            >> fen_castle_rights >> fen_en_passant >> fen_halfmove_clock
+            >> fen_fullmove_number;
+
+        fancy_string +=
+            "Move number: " + fen_fullmove_number +
+            " Turn: " + fen_turn +
+            " Castle rights: " + fen_castle_rights +
+            " En passant: " + fen_en_passant +
+            " Halfmove clock: " + fen_halfmove_clock + "\n";
+
+        for (const std::array<piece, 8>& row: grid) {
+            for (const piece& grid_piece: row) {
+                fancy_string += grid_piece.to_string() + " ";
+            }
+
+            fancy_string += '\n';
+        }
+
+        return fancy_string;
+    }
 }
