@@ -123,21 +123,14 @@ namespace esochess {
             bit_representation to;
         };
 
-        struct move_capture {
-            static constexpr std::size_t variant_index {1};
-
-            bit_representation from;
-            bit_representation to;
-        };
-
         struct move_en_passant {
-            static constexpr std::size_t variant_index {2};
+            static constexpr std::size_t variant_index {1};
 
             Turn turn;
         };
 
         struct move_castle {
-            static constexpr std::size_t variant_index {3};
+            static constexpr std::size_t variant_index {2};
 
             enum class CastleType {KingSide, QueenSide};
 
@@ -146,14 +139,9 @@ namespace esochess {
         };
 
         struct move_promotion {
-            static constexpr std::size_t variant_index {4};
+            static constexpr std::size_t variant_index {3};
 
-            bit_representation from;
-            PieceType promotion_type;
-        };
-
-        struct move_promotion_capture {
-            static constexpr std::size_t variant_index {5};
+            enum class Direction {West, Middle, East}; // `West` tends to the first file while `East` tends to the eigth file
 
             bit_representation from;
             PieceType promotion_type;
@@ -161,18 +149,14 @@ namespace esochess {
 
         using move = std::variant<
             move_normal,
-            move_capture,
             move_en_passant,
             move_castle,
-            move_promotion,
-            move_promotion_capture>;
+            move_promotion>;
 
         bitboard& make_move(const move_normal& move);
-        bitboard& make_move(const move_capture& move);
         bitboard& make_move(const move_en_passant& move);
         bitboard& make_move(const move_castle& move);
         bitboard& make_move(const move_promotion& move);
-        bitboard& make_move(const move_promotion_capture& move);
 
         bitboard() = default;
         bitboard(const bitboard& other) = default;
@@ -197,11 +181,9 @@ namespace esochess {
 
         struct moves_listing {
             std::vector<move_normal> normal_moves;
-            std::vector<move_capture> capture_moves;
             std::vector<move_castle> castle_moves;
             std::vector<move_en_passant> en_passant_moves;
             std::vector<move_promotion> promotion_moves;
-            std::vector<move_promotion_capture> promotion_capture_moves;
         };
 
         [[nodiscard]] moves_listing available_moves(Turn turn) const;
