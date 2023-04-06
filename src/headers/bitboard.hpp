@@ -17,6 +17,12 @@ namespace esochess {
 
         enum class Turn {White, Black, None};
         enum class PieceType {Pawn, Knight, Bishop, Rook, Queen, King};
+        enum class Direction { // Ordinal cordinate where `North` tends towards the 8th rank
+                               // `South` tends towards the 1st rank
+                               // `East` tends towards the 'h' file
+                               // `West` tends towards the 'a' file
+            North, NorthEast, East, SouthEast,
+            South, SouthWest, West, NorthWest};
 
         static constexpr const char* const starting_position_fen {"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
 
@@ -141,7 +147,7 @@ namespace esochess {
         struct move_promotion {
             static constexpr std::size_t variant_index {3};
 
-            enum class Direction {West, Middle, East}; // `West` tends to the first file while `East` tends to the eigth file
+            Direction promotion_direction;
 
             bit_representation from;
             PieceType promotion_type;
