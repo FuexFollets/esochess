@@ -204,6 +204,7 @@ namespace esochess {
             std::vector<move_promotion_capture> promotion_capture_moves;
         };
 
+        [[nodiscard]] moves_listing available_moves(Turn turn) const;
         [[nodiscard]] moves_listing available_moves() const;
         [[nodiscard]] bit_representation controlled_squares(Turn checked_turn) const;
 
@@ -219,7 +220,7 @@ namespace esochess {
         int _halfmove_clock {};
         int _fullmove_number {};
 
-        struct cached_moves_listing_t {
+        struct cached_moves_listing_t { // Avoid recalculating the moves listing
             int full_move_calculated; // The fullmove in which these move listing were calculated
 
             std::optional<moves_listing> white_pieces;
@@ -228,8 +229,8 @@ namespace esochess {
             std::optional<bit_representation> white_controlled_squares;
             std::optional<bit_representation> black_controlled_squares;
 
-            bool operator==(const cached_moves_listing_t&) const;
-            bool operator!=(const cached_moves_listing_t&) const;
+            bool operator==(const cached_moves_listing_t&) const { return true; }
+            bool operator!=(const cached_moves_listing_t&) const { return true; }
         } _cached_moves_listing;
     };
 }
