@@ -25,6 +25,9 @@ namespace esochess {
             South, SouthWest, West, NorthWest};
         enum class CastleType {KingSide, QueenSide};
 
+        static constexpr int white_pawn_starting_rank {1};
+        static constexpr int black_pawn_starting_rank {6};
+
         static constexpr const char* const starting_position_fen {"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
 
         struct piece {
@@ -192,6 +195,9 @@ namespace esochess {
         bitboard& operator=(const bitboard& other) = default;
         bool operator==(const bitboard& other) const = default;
         bool operator!=(const bitboard& other) const = default;
+
+        [[nodiscard]] Turn color_at_square(const bit_representation& bit_mask) const;
+        [[nodiscard]] Turn color_at_square(const cordinate& cord) const;
 
         using chess_grid = std::array<std::array<piece, 8>, 8>;
         [[nodiscard]] chess_grid to_grid() const;
