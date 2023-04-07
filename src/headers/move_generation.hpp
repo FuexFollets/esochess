@@ -12,7 +12,6 @@ namespace esochess {
     void add_king_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
     void add_king_castle_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
 
-
     void add_rook_bishop_queen_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
     void add_knight_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
 }

@@ -224,6 +224,7 @@ namespace esochess {
 
         static Turn opposite_turn(Turn turn);
         static std::vector<cordinate> cordinate_from_bit_representation(bit_representation bits);
+        static bool in_bounds(const cordinate& cord);
 
         private:
 
