@@ -51,6 +51,15 @@ namespace esochess {
             [[nodiscard]] int pos_x() const;
             [[nodiscard]] int pos_y() const;
 
+            [[nodiscard]] cordinate north(int steps) const;
+            [[nodiscard]] cordinate northwest(int steps) const;
+            [[nodiscard]] cordinate west(int steps) const;
+            [[nodiscard]] cordinate southwest(int steps) const;
+            [[nodiscard]] cordinate south(int steps) const;
+            [[nodiscard]] cordinate southeast(int steps) const;
+            [[nodiscard]] cordinate east(int steps) const;
+            [[nodiscard]] cordinate northeast(int steps) const;
+
             [[nodiscard]] bit_representation to_bit_representation() const;
             [[nodiscard]] std::string to_string() const;
             [[nodiscard]] std::string to_fancy_string() const;
