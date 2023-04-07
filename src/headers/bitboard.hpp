@@ -206,7 +206,7 @@ namespace esochess {
 
         [[nodiscard]] std::array<bit_representation, 12> bitboards() const;
         [[nodiscard]] Turn turn() const;
-        [[nodiscard]] en_passant_square en_passant() const;
+        [[nodiscard]] std::optional<en_passant_square> en_passant() const;
         [[nodiscard]] castle_rights_collection castle_rights() const;
         [[nodiscard]] int halfmove_clock() const;
         [[nodiscard]] int fullmove_clock() const;
