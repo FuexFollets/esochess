@@ -120,6 +120,7 @@ namespace esochess {
             Turn captureable_piece_color;
 
             bool operator==(const en_passant_square& other) const = default;
+            [[nodiscard]] cordinate to_cordinate() const;
         };
 
         struct castle_rights_collection {
@@ -147,11 +148,12 @@ namespace esochess {
 
         struct move_en_passant {
             move_en_passant() = default;
-            move_en_passant(bit_representation bit_from, bit_representation bit_to);
+            explicit move_en_passant(en_passant_square square_taken, Direction from_direction);
 
             static constexpr std::size_t variant_index {1};
 
-            Turn turn;
+            en_passant_square square_taken;
+            Direction en_passant_direction;
         };
 
         struct move_castle {
@@ -198,6 +200,9 @@ namespace esochess {
 
         [[nodiscard]] Turn color_at_square(const bit_representation& bit_mask) const;
         [[nodiscard]] Turn color_at_square(const cordinate& cord) const;
+
+        [[nodiscard]] piece piece_at_square(const bit_representation& bit_mask) const;
+        [[nodiscard]] piece piece_at_square(const cordinate& cord) const;
 
         using chess_grid = std::array<std::array<piece, 8>, 8>;
         [[nodiscard]] chess_grid to_grid() const;
