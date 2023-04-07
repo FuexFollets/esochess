@@ -23,6 +23,7 @@ namespace esochess {
                                // `West` tends towards the 'a' file
             North, NorthEast, East, SouthEast,
             South, SouthWest, West, NorthWest};
+        enum class CastleType {KingSide, QueenSide};
 
         static constexpr const char* const starting_position_fen {"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
 
@@ -123,6 +124,9 @@ namespace esochess {
         };
 
         struct move_normal {
+            move_normal() = default;
+            move_normal(bit_representation bit_from, bit_representation bit_to);
+
             static constexpr std::size_t variant_index {0};
 
             bit_representation from;
@@ -130,21 +134,28 @@ namespace esochess {
         };
 
         struct move_en_passant {
+            move_en_passant() = default;
+            move_en_passant(bit_representation bit_from, bit_representation bit_to);
+
             static constexpr std::size_t variant_index {1};
 
             Turn turn;
         };
 
         struct move_castle {
-            static constexpr std::size_t variant_index {2};
+            move_castle() = default;
+            move_castle(Turn turn, CastleType castle_type);
 
-            enum class CastleType {KingSide, QueenSide};
+            static constexpr std::size_t variant_index {2};
 
             Turn turn;
             CastleType castle_type;
         };
 
         struct move_promotion {
+            move_promotion() = default;
+            move_promotion(bit_representation bit_from, PieceType promotion_type, Direction promotion_direction);
+
             static constexpr std::size_t variant_index {3};
 
             Direction promotion_direction;
