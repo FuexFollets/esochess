@@ -140,4 +140,98 @@ namespace esochess {
                 en_passant_square, bitboard::Direction::SouthEast);
         }
     }
+
+    void add_pawn_promotion_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext) {
+        static const bitboard::bit_representation seventh_rank_bits {[]() {
+            bitboard::bit_representation bits {};
+
+            for (int file {0}; file < 8; file++) {
+                bits |= bitboard::cordinate {file, 6}.to_bit_representation();
+            }
+
+            return bits;
+        }()};
+
+        static const bitboard::bit_representation second_rank_bits {[]() {
+            bitboard::bit_representation bits {};
+
+            for (int file {0}; file < 8; file++) {
+                bits |= bitboard::cordinate {file, 1}.to_bit_representation();
+            }
+
+            return bits;
+        }()};
+
+        const bitboard::Turn turn {board.turn()};
+        const bitboard::Turn opposite_turn {bitboard::opposite_turn(turn)};
+
+        if (
+            (board.turn() == bitboard::Turn::White &&
+             (board.bitboards().at(bitboard::pieces::white_pawn.bitboard_index) & seventh_rank_bits) == 0) ||
+            (board.turn() == bitboard::Turn::Black &&
+             (board.bitboards().at(bitboard::pieces::black_pawn.bitboard_index) & second_rank_bits) == 0)
+        ) {
+            return;
+        }
+
+        if (turn == bitboard::Turn::White) {
+            for (const bitboard::cordinate& pawn_cordinate : bitboard::cordinate_from_bit_representation(
+                board.bitboards().at(bitboard::pieces::white_pawn.bitboard_index) & seventh_rank_bits)) {
+
+                if (board.color_at_square(pawn_cordinate.north(1)) == bitboard::Turn::None) {
+                    moves_listing_ext.promotion_moves.emplace_back(
+                        pawn_cordinate.to_bit_representation(),
+                        bitboard::PieceType::AnyPromotion,
+                        bitboard::Direction::North
+                    );
+                }
+
+                if (board.color_at_square(pawn_cordinate.northwest(1)) == opposite_turn) {
+                    moves_listing_ext.promotion_moves.emplace_back(
+                        pawn_cordinate.to_bit_representation(),
+                        bitboard::PieceType::AnyPromotion,
+                        bitboard::Direction::NorthWest
+                    );
+                }
+
+                if (board.color_at_square(pawn_cordinate.northeast(1)) == opposite_turn) {
+                    moves_listing_ext.promotion_moves.emplace_back(
+                        pawn_cordinate.to_bit_representation(),
+                        bitboard::PieceType::AnyPromotion,
+                        bitboard::Direction::NorthEast
+                    );
+                }
+            }
+        }
+
+        if (turn == bitboard::Turn::Black) {
+            for (const bitboard::cordinate& pawn_cordinate : bitboard::cordinate_from_bit_representation(
+                board.bitboards().at(bitboard::pieces::black_pawn.bitboard_index) & second_rank_bits)) {
+
+                if (board.color_at_square(pawn_cordinate.south(1)) == bitboard::Turn::None) {
+                    moves_listing_ext.promotion_moves.emplace_back(
+                        pawn_cordinate.to_bit_representation(),
+                        bitboard::PieceType::AnyPromotion,
+                        bitboard::Direction::South
+                    );
+                }
+
+                if (board.color_at_square(pawn_cordinate.southwest(1)) == opposite_turn) {
+                    moves_listing_ext.promotion_moves.emplace_back(
+                        pawn_cordinate.to_bit_representation(),
+                        bitboard::PieceType::AnyPromotion,
+                        bitboard::Direction::SouthWest
+                    );
+                }
+
+                if (board.color_at_square(pawn_cordinate.southeast(1)) == opposite_turn) {
+                    moves_listing_ext.promotion_moves.emplace_back(
+                        pawn_cordinate.to_bit_representation(),
+                        bitboard::PieceType::AnyPromotion,
+                        bitboard::Direction::SouthEast
+                    );
+                }
+            }
+        }
+    }
 }
