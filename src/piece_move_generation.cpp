@@ -158,4 +158,25 @@ namespace esochess {
             moves_listing_ext.castle_moves.emplace_back(bitboard::Turn::Black, bitboard::CastleType::QueenSide);
         }
     }
+
+    void add_rook_bishop_queen_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext) {
+        const bitboard::Turn turn {board.turn()};
+
+        for (const bitboard::piece& piece : (turn == bitboard::Turn::White ? bitboard::pieces::white_rook_bishop_queen
+                                                                           : bitboard::pieces::black_rook_bishop_queen)) {
+            const bitboard::bit_representation piece_bits {board.bitboards().at(piece.bitboard_index)};
+            const std::vector<bitboard::cordinate> cordinates_for_pieces {
+                bitboard::cordinate_from_bit_representation(piece_bits)};
+
+            for (const bitboard::cordinate piece_cordinate: cordinates_for_pieces) {
+                switch (piece.piece_type) {
+                    case bitboard::PieceType::Bishop: add_bishop_moves(board, moves_listing_ext, piece_cordinate);
+                    case bitboard::PieceType::Rook: add_rook_moves(board, moves_listing_ext, piece_cordinate);
+                    case bitboard::PieceType::Queen: add_queen_moves(board, moves_listing_ext, piece_cordinate);
+
+                    default: break;
+                }
+            }
+        }
+    }
 }
