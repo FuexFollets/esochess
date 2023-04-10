@@ -16,7 +16,7 @@ namespace esochess {
         using bit_representation = std::uint64_t;
 
         enum class Turn {White, Black, None};
-        enum class PieceType {Pawn, Knight, Bishop, Rook, Queen, King};
+        enum class PieceType {Any, AnyPromotion, Pawn, Knight, Bishop, Rook, Queen, King};
         enum class Direction { // Ordinal cordinate where `North` tends towards the 8th rank
                                // `South` tends towards the 1st rank
                                // `East` tends towards the 'h' file
