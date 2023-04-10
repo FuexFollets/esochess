@@ -223,9 +223,23 @@ namespace esochess {
             std::vector<move_promotion> promotion_moves;
         };
 
+        struct cached_moves_listing_t { // Avoid recalculating the moves listing
+            int full_move_calculated; // The fullmove in which these move listing were calculated
+
+            std::optional<moves_listing> white_pieces;
+            std::optional<moves_listing> black_pieces;
+
+            std::optional<bit_representation> white_controlled_squares;
+            std::optional<bit_representation> black_controlled_squares;
+
+            bool operator==(const cached_moves_listing_t&) const { return true; }
+            bool operator!=(const cached_moves_listing_t&) const { return true; }
+        };
+
         [[nodiscard]] moves_listing available_moves(Turn turn) const;
         [[nodiscard]] moves_listing available_moves() const;
         [[nodiscard]] bit_representation controlled_squares(Turn checked_turn) const;
+        [[nodiscard]] cached_moves_listing_t& cached_moves_listing() const;
 
         static Turn opposite_turn(Turn turn);
         static std::vector<cordinate> cordinate_from_bit_representation(bit_representation bits);
@@ -240,18 +254,7 @@ namespace esochess {
         int _halfmove_clock {};
         int _fullmove_number {};
 
-        struct cached_moves_listing_t { // Avoid recalculating the moves listing
-            int full_move_calculated; // The fullmove in which these move listing were calculated
-
-            std::optional<moves_listing> white_pieces;
-            std::optional<moves_listing> black_pieces;
-
-            std::optional<bit_representation> white_controlled_squares;
-            std::optional<bit_representation> black_controlled_squares;
-
-            bool operator==(const cached_moves_listing_t&) const { return true; }
-            bool operator!=(const cached_moves_listing_t&) const { return true; }
-        } _cached_moves_listing;
+         cached_moves_listing_t _cached_moves_listing;
     };
 }
 
