@@ -14,9 +14,12 @@ namespace esochess {
 
     void add_rook_bishop_queen_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
     void add_knight_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
-    void add_bishop_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
-    void add_rook_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
-    void add_queen_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
+    void add_bishop_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext,
+            const bitboard::cordinate& at_cordinate);
+    void add_rook_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext,
+            const bitboard::cordinate& at_cordinate);
+    void add_queen_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext,
+            const bitboard::cordinate& at_cordinate);
 }
 
 #endif
