@@ -63,6 +63,8 @@ namespace esochess {
             [[nodiscard]] cordinate east(int steps) const;
             [[nodiscard]] cordinate northeast(int steps) const;
 
+            [[nodiscard]] cordinate in_direction(Direction direction, int steps) const;
+
             [[nodiscard]] bit_representation to_bit_representation() const;
             [[nodiscard]] std::string to_string() const;
             [[nodiscard]] std::string to_fancy_string() const;
