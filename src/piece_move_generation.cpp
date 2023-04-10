@@ -6,6 +6,51 @@
 
 namespace esochess {
     void add_king_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext) {
+        constexpr static std::array<bitboard::Direction, 8> all_directions {
+            bitboard::Direction::North,
+            bitboard::Direction::NorthEast,
+            bitboard::Direction::East,
+            bitboard::Direction::SouthEast,
+            bitboard::Direction::South,
+            bitboard::Direction::SouthWest,
+            bitboard::Direction::West,
+            bitboard::Direction::NorthWest
+        };
+
+        const bitboard::Turn turn {board.turn()};
+        const bitboard::bit_representation king_bitboard {
+            board
+                .bitboards()
+                .at(turn == bitboard::Turn::White ? bitboard::pieces::white_king.bitboard_index
+                                                  : bitboard::pieces::black_king.bitboard_index)
+        };
+
+        if (king_bitboard == 0) { // If king does not exist
+            return;
+        }
+
+        const bitboard::cordinate king_cordinate {bitboard::cordinate_from_bit_representation(king_bitboard).at(0)};
+        const bitboard::bit_representation opponent_controlled_squares_bits {
+            (turn == bitboard::Turn::White ? board.cached_moves_listing().black_controlled_squares
+                                           : board.cached_moves_listing().white_controlled_squares).value_or(0)
+        };
+
+        for (const bitboard::Direction king_direction: all_directions) {
+            const bitboard::cordinate cordinate_in_direction {king_cordinate.in_direction(king_direction, 1)};
+            const bitboard::bit_representation cordinate_in_direction_bits {cordinate_in_direction.to_bit_representation()};
+
+            if (
+                bitboard::in_bounds(cordinate_in_direction) &&
+                (board.bitboard_bitor_accumulation(turn) & cordinate_in_direction_bits) == 0 &&
+                (cordinate_in_direction_bits & opponent_controlled_squares_bits) == 0
+            ) {
+                moves_listing_ext.normal_moves.emplace_back(
+                        king_cordinate.to_bit_representation(),
+                        cordinate_in_direction_bits);
+            }
+
+        }
+
         add_king_castle_moves(board, moves_listing_ext);
     }
 
