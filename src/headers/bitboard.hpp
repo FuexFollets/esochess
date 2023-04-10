@@ -112,6 +112,14 @@ namespace esochess {
                 black_knight, black_bishop, black_rook, black_queen
             };
 
+            static constexpr std::array<piece, 3> white_rook_bishop_queen {
+                white_bishop, white_rook, white_queen
+            };
+
+            static constexpr std::array<piece, 3> black_rook_bishop_queen {
+                black_bishop, black_rook, black_queen
+            };
+
             static piece from_symbol(char symbol);
             static piece from_index(std::size_t index);
             static piece from_type_and_turn(PieceType type, Turn turn);
