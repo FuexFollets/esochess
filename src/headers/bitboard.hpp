@@ -239,7 +239,7 @@ namespace esochess {
         [[nodiscard]] moves_listing available_moves(Turn turn) const;
         [[nodiscard]] moves_listing available_moves() const;
         [[nodiscard]] bit_representation controlled_squares(Turn checked_turn) const;
-        [[nodiscard]] cached_moves_listing_t& cached_moves_listing() const;
+        [[nodiscard]] cached_moves_listing_t& cached_moves_listing();
 
         static Turn opposite_turn(Turn turn);
         static std::vector<cordinate> cordinate_from_bit_representation(bit_representation bits);
