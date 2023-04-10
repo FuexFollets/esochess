@@ -120,6 +120,16 @@ namespace esochess {
                 black_bishop, black_rook, black_queen
             };
 
+            static constexpr std::array<Direction, 4> bishop_directions {
+                Direction::NorthEast, Direction::NorthWest,
+                Direction::SouthEast, Direction::SouthWest
+            };
+
+            static constexpr std::array<Direction, 4> rook_directions {
+                Direction::North, Direction::East,
+                Direction::South, Direction::West
+            };
+
             static piece from_symbol(char symbol);
             static piece from_index(std::size_t index);
             static piece from_type_and_turn(PieceType type, Turn turn);
