@@ -15,7 +15,7 @@ namespace esochess {
     struct bitboard {
         using bit_representation = std::uint64_t;
 
-        enum class Turn {White, Black, None};
+        enum class Turn {White, Black, None, All};
         enum class PieceType {Any, AnyPromotion, Pawn, Knight, Bishop, Rook, Queen, King};
         enum class Direction { // Ordinal cordinate where `North` tends towards the 8th rank
                                // `South` tends towards the 1st rank
@@ -239,6 +239,7 @@ namespace esochess {
         [[nodiscard]] moves_listing available_moves(Turn turn) const;
         [[nodiscard]] moves_listing available_moves() const;
         [[nodiscard]] bit_representation controlled_squares(Turn checked_turn) const;
+        [[nodiscard]] bit_representation bitboard_bitor_accumulation(Turn turn) const;
         [[nodiscard]] cached_moves_listing_t& cached_moves_listing();
 
         static Turn opposite_turn(Turn turn);
