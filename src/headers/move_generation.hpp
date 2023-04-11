@@ -2,6 +2,8 @@
 #define ESOCHESS_MOVE_GENERATION_HPP
 #pragma once
 
+#include <optional>
+
 #include "bitboard.hpp"
 
 namespace esochess {
@@ -20,6 +22,11 @@ namespace esochess {
             const bitboard::cordinate& at_cordinate);
     void add_queen_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext,
             const bitboard::cordinate& at_cordinate);
+
+    void bitor_add_controlled_squares(
+            std::optional<bitboard::bit_representation>& controlled_squares_bits,
+            bitboard::Turn color,
+            const bitboard::bit_representation& bit_mask);
 }
 
 #endif
