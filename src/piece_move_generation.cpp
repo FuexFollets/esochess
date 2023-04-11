@@ -302,4 +302,28 @@ namespace esochess {
             }
         }
     }
+
+    void bitor_add_controlled_squares(
+            std::optional<bitboard::bit_representation>& controlled_squares_bits,
+            const bitboard::bit_representation& bit_mask) {
+
+        if (!controlled_squares_bits.has_value()) {
+            controlled_squares_bits = bitboard::bit_representation {};
+        }
+
+        controlled_squares_bits.transform(
+            [&bit_mask] (bitboard::bit_representation bits) {
+                return bits | bit_mask;
+            }
+        );
+    }
+
+    void add_controlled_squares(bitboard& bitboard_ext,
+            const bitboard::bit_representation& controlled_squares,
+            bitboard::Turn turn) {
+        bitor_add_controlled_squares(
+            turn == bitboard::Turn::White ? bitboard_ext.cached_moves_listing().white_controlled_squares
+                                          : bitboard_ext.cached_moves_listing().black_controlled_squares,
+            controlled_squares);
+    }
 }
