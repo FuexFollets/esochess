@@ -25,7 +25,6 @@ namespace esochess {
 
     void bitor_add_controlled_squares(
             std::optional<bitboard::bit_representation>& controlled_squares_bits,
-            bitboard::Turn color,
             const bitboard::bit_representation& bit_mask);
 }
 
