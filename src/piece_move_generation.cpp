@@ -239,4 +239,34 @@ namespace esochess {
             }
         }
     }
+
+    void add_queen_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext, const bitboard::cordinate& at_cordinate) {
+        const bitboard::Turn turn {board.turn()};
+        const bitboard::Turn opponents_turn {bitboard::opposite_turn(turn)};
+        const bitboard::bit_representation queen_cordinate_bits {at_cordinate.to_bit_representation()};
+        const bitboard::bit_representation current_turns_pieces_positions_bits {board.bitboard_bitor_accumulation(turn)};
+        const bitboard::bit_representation opponent_piece_positions_bits {board.bitboard_bitor_accumulation(opponents_turn)};
+
+        for (const bitboard::Direction& direction: bitboard::pieces::all_directions) {
+            for (int steps {}; steps < 8; steps++) {
+                const bitboard::cordinate cordinate_after_steps {at_cordinate.in_direction(direction, steps)};
+                const bitboard::bit_representation cordinate_after_steps_bits {cordinate_after_steps.to_bit_representation()};
+
+                if (
+                    !bitboard::in_bounds(cordinate_after_steps) ||
+                    (current_turns_pieces_positions_bits & cordinate_after_steps_bits) != 0
+                ) {
+                    break; // Do not continue searching for moves in this direction
+                }
+
+                if ((opponent_piece_positions_bits & cordinate_after_steps_bits) != 0) {
+                    moves_listing_ext.normal_moves.emplace_back(queen_cordinate_bits, cordinate_after_steps_bits);
+
+                    break;
+                }
+
+                moves_listing_ext.normal_moves.emplace_back(queen_cordinate_bits, cordinate_after_steps_bits);
+            }
+        }
+    }
 }
