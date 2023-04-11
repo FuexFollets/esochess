@@ -1,5 +1,7 @@
 #include <array>
 #include <numeric>
+#include <utility>
+#include <vector>
 
 #include "headers/bitboard.hpp"
 #include "headers/move_generation.hpp"
@@ -266,6 +268,37 @@ namespace esochess {
                 }
 
                 moves_listing_ext.normal_moves.emplace_back(queen_cordinate_bits, cordinate_after_steps_bits);
+            }
+        }
+    }
+
+    void add_knight_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext) {
+        static constexpr std::array<std::pair<int, int>, 8> knight_move_differences {{
+            {1, 2}, {1, -2}, {-1, 2}, {-1, -2},
+            {2, 1}, {2, -1}, {-2, 1}, {-2, -1}
+        }};
+
+        const bitboard::Turn turn {board.turn()};
+        const std::vector<bitboard::cordinate> knight_positions {bitboard::cordinate_from_bit_representation(
+            turn == bitboard::Turn::White ? board.bitboards().at(bitboard::pieces::white_knight.bitboard_index)
+                                          : board.bitboards().at(bitboard::pieces::black_knight.bitboard_index)
+        )};
+
+        for (const bitboard::cordinate& knight_cordinate: knight_positions) {
+            for (const auto&[x_difference, y_difference]: knight_move_differences) {
+                const bitboard::cordinate cordinate_after_move {knight_cordinate.north(x_difference).east(y_difference)};
+
+                if (!bitboard::in_bounds(cordinate_after_move)) {
+                    continue;
+                }
+
+                const bitboard::bit_representation cordinate_after_move_bits {cordinate_after_move.to_bit_representation()};
+
+                if (board.color_at_square(cordinate_after_move_bits) != turn) { // The square moved to only
+                                                                                // needs to hold a different color piece
+                    moves_listing_ext.normal_moves.emplace_back(knight_cordinate.to_bit_representation(),
+                            cordinate_after_move_bits);
+                }
             }
         }
     }
