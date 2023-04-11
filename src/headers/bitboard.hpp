@@ -253,6 +253,12 @@ namespace esochess {
         struct cached_moves_listing_t { // Avoid recalculating the moves listing
             int full_move_calculated; // The fullmove in which these move listing were calculated
 
+            bool white_pieces_moves_complete {};
+            bool black_pieces_moves_complete {};
+
+            bool white_pieces_bits_complete {};
+            bool black_pieces_bits_complete {};
+
             std::optional<moves_listing> white_pieces;
             std::optional<moves_listing> black_pieces;
 
@@ -282,7 +288,7 @@ namespace esochess {
         int _halfmove_clock {};
         int _fullmove_number {};
 
-         cached_moves_listing_t _cached_moves_listing;
+     cached_moves_listing_t _cached_moves_listing;
     };
 }
 
