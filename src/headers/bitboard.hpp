@@ -288,7 +288,7 @@ namespace esochess {
         int _halfmove_clock {};
         int _fullmove_number {};
 
-     cached_moves_listing_t _cached_moves_listing;
+        cached_moves_listing_t _cached_moves_listing;
     };
 }
 
