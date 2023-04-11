@@ -130,6 +130,13 @@ namespace esochess {
                 Direction::South, Direction::West
             };
 
+            static constexpr std::array<Direction, 8> all_directions {
+                Direction::North, Direction::NorthEast,
+                Direction::East, Direction::SouthEast,
+                Direction::South, Direction::SouthWest,
+                Direction::West, Direction::NorthWest
+            };
+
             static piece from_symbol(char symbol);
             static piece from_index(std::size_t index);
             static piece from_type_and_turn(PieceType type, Turn turn);
