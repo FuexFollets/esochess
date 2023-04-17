@@ -1,0 +1,3 @@
+[submodule "Constants"]
+	path = Constants
+	url = https://github.com/FuexFollets/Constants.git
