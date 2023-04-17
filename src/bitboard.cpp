@@ -10,12 +10,12 @@ namespace esochess {
         return std::string {symbol};
     }
 
-    bitboard::cordinate::cordinate(int pos_x, int pos_y) :
-        _x {pos_x}, _y {pos_y} {}
+    bitboard::cordinate::cordinate(int pos_x, int pos_y) : _x {pos_x}, _y {pos_y} {
+    }
 
     bitboard::cordinate::cordinate(bitboard::bit_representation bit_mask) :
-        _x {std::countr_zero(bit_mask) % 8},
-        _y {std::countr_zero(bit_mask / 8)} {}
+        _x {std::countr_zero(bit_mask) % 8}, _y {std::countr_zero(bit_mask / 8)} {
+    }
 
     int bitboard::cordinate::pos_x() const {
         return _x;
@@ -49,8 +49,7 @@ namespace esochess {
                 cordinate_from_bit_representation(_bitboards.at(chess_piece.bitboard_index))};
 
             for (const bitboard::cordinate& cordinate: cordinates) {
-                grid.at(cordinate.pos_y())
-                    .at(cordinate.pos_x()) = chess_piece;
+                grid.at(cordinate.pos_y()).at(cordinate.pos_x()) = chess_piece;
             }
         }
 
@@ -65,11 +64,11 @@ namespace esochess {
         return (turn == Turn::White) ? Turn::Black : Turn::White;
     }
 
-    std::vector<bitboard::cordinate> bitboard::cordinate_from_bit_representation(bitboard::bit_representation bits) {
+    std::vector<bitboard::cordinate>
+        bitboard::cordinate_from_bit_representation(bitboard::bit_representation bits) {
         std::vector<bitboard::cordinate> cordinates;
 
         while (bits != 0x0000'0000) {
-
             const cordinate cordinate_from_bits {bits};
             cordinates.emplace_back(cordinate_from_bits);
             const std::uint64_t bit_mask {~std::bit_floor(bits)};
@@ -81,10 +80,9 @@ namespace esochess {
     }
 
     bitboard::piece bitboard::pieces::from_symbol(char symbol) {
-        return *std::find_if(pieces::all_pieces.begin(), pieces::all_pieces.end(),
-                [symbol](const piece& chess_piece) {
-            return chess_piece.symbol == symbol;
-        });
+        return *std::find_if(
+            pieces::all_pieces.begin(), pieces::all_pieces.end(),
+            [symbol](const piece& chess_piece) { return chess_piece.symbol == symbol; });
     }
 
     bitboard::piece bitboard::pieces::from_index(std::size_t index) {
@@ -93,8 +91,8 @@ namespace esochess {
 
     bitboard::piece bitboard::pieces::from_type_and_turn(PieceType type, Turn turn) {
         return *std::find_if(pieces::all_pieces.begin(), pieces::all_pieces.end(),
-                [type, turn](const piece& chess_piece) {
-            return chess_piece.piece_type == type && chess_piece.turn == turn;
-        });
+                             [type, turn](const piece& chess_piece) {
+                                 return chess_piece.piece_type == type && chess_piece.turn == turn;
+                             });
     }
-}
+} // namespace esochess

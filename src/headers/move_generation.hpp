@@ -17,19 +17,19 @@ namespace esochess {
     void add_rook_bishop_queen_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
     void add_knight_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext);
     void add_bishop_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext,
-            const bitboard::cordinate& at_cordinate);
+                          const bitboard::cordinate& at_cordinate);
     void add_rook_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext,
-            const bitboard::cordinate& at_cordinate);
+                        const bitboard::cordinate& at_cordinate);
     void add_queen_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext,
-            const bitboard::cordinate& at_cordinate);
+                         const bitboard::cordinate& at_cordinate);
 
     void bitor_add_controlled_squares(
-            std::optional<bitboard::bit_representation>& controlled_squares_bits,
-            const bitboard::bit_representation& bit_mask);
+        std::optional<bitboard::bit_representation>& controlled_squares_bits,
+        const bitboard::bit_representation& bit_mask);
 
     void add_controlled_squares(bitboard& bitboard_ext,
-            const bitboard::bit_representation& controlled_squares,
-            bitboard::Turn turn);
-}
+                                const bitboard::bit_representation& controlled_squares,
+                                bitboard::Turn turn);
+} // namespace esochess
 
 #endif

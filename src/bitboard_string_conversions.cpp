@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <array>
-#include <string>
 #include <sstream>
+#include <string>
 
 #include "headers/bitboard.hpp"
 
@@ -14,17 +14,15 @@ namespace esochess {
         std::string fen_halfmove_clock;
         std::string fen_fullmove_number;
 
-        std::stringstream {fen_position} >> fen_board >> fen_turn
-            >> fen_castle_rights >> fen_en_passant >> fen_halfmove_clock
-            >> fen_fullmove_number;
-
+        std::stringstream {fen_position} >> fen_board >> fen_turn >> fen_castle_rights >>
+            fen_en_passant >> fen_halfmove_clock >> fen_fullmove_number;
 
         std::string rank;
         int row {7};
 
         std::istringstream fen_position_stream {fen_position};
 
-        while (std::getline(fen_position_stream, rank, '/') && row>= 0) {
+        while (std::getline(fen_position_stream, rank, '/') && row >= 0) {
             int column {0};
 
             for (const char letter: rank) {
@@ -34,12 +32,16 @@ namespace esochess {
                 }
 
                 else {
-                    const piece corresponding_piece {*std::find_if(bitboard::pieces::all_pieces.begin(),
-                            bitboard::pieces::all_pieces.end(),
-                            [letter] (bitboard::piece maybe_piece) {
-                                return maybe_piece.symbol == letter;})};
+                    const piece corresponding_piece {*std::find_if(
+                        bitboard::pieces::all_pieces.begin(), bitboard::pieces::all_pieces.end(),
+                        [letter](bitboard::piece maybe_piece) {
+                            return maybe_piece.symbol == letter;
+                        })};
 
-                    const bitboard::bit_representation bit_position {cordinate {column, row}.to_bit_representation()};
+                    const bitboard::bit_representation bit_position {
+                        cordinate {column, row}
+                         .to_bit_representation()
+                    };
 
                     _bitboards.at(corresponding_piece.bitboard_index) |= bit_position;
                     column++;
@@ -49,24 +51,37 @@ namespace esochess {
             row--;
         }
 
-        if (fen_turn == "w") { _turn = Turn::White; }
-        else { _turn = Turn::Black; }
+        if (fen_turn == "w") {
+            _turn = Turn::White;
+        }
+        else {
+            _turn = Turn::Black;
+        }
 
-        if (fen_castle_rights.contains('K')) { _castle_rights.white_king_side = true; }
-        if (fen_castle_rights.contains('Q')) { _castle_rights.white_queen_side = true; }
-        if (fen_castle_rights.contains('k')) { _castle_rights.black_king_side = true; }
-        if (fen_castle_rights.contains('q')) { _castle_rights.black_queen_side = true; }
+        if (fen_castle_rights.contains('K')) {
+            _castle_rights.white_king_side = true;
+        }
+        if (fen_castle_rights.contains('Q')) {
+            _castle_rights.white_queen_side = true;
+        }
+        if (fen_castle_rights.contains('k')) {
+            _castle_rights.black_king_side = true;
+        }
+        if (fen_castle_rights.contains('q')) {
+            _castle_rights.black_queen_side = true;
+        }
 
-        if (fen_en_passant == "-") { _en_passant = {}; }
+        if (fen_en_passant == "-") {
+            _en_passant = {};
+        }
 
         else {
-            const int en_passant_cordinate_x {fen_en_passant[0] - 'a'};
-            const int en_passant_cordinate_y {fen_en_passant[1] - '1'};
+            const int en_passant_cordinate_x {fen_en_passant [0] - 'a'};
+            const int en_passant_cordinate_y {fen_en_passant [1] - '1'};
 
-            _en_passant = en_passant_square {
-                static_cast<std::uint8_t>(en_passant_cordinate_x),
-                (en_passant_cordinate_y == 3) ? Turn::White : Turn::Black
-            };
+            _en_passant =
+                en_passant_square {static_cast<std::uint8_t>(en_passant_cordinate_x),
+                                   (en_passant_cordinate_y == 3) ? Turn::White : Turn::Black};
         }
 
         _halfmove_clock = std::atoi(fen_halfmove_clock.c_str());
@@ -74,7 +89,7 @@ namespace esochess {
     }
 
     std::string bitboard::to_fen() const {
-        const bitboard::chess_grid grid {this -> to_grid()};
+        const bitboard::chess_grid grid {this->to_grid()};
 
         std::string fen_position {};
 
@@ -111,7 +126,7 @@ namespace esochess {
     }
 
     std::string bitboard::to_fancy_string() const {
-        const bitboard::chess_grid grid {this -> to_grid()};
+        const bitboard::chess_grid grid {this->to_grid()};
 
         std::string fancy_string {};
 
@@ -122,16 +137,12 @@ namespace esochess {
         std::string fen_halfmove_clock;
         std::string fen_fullmove_number;
 
-        std::stringstream {this -> to_fen()} >> fen_board >> fen_turn
-            >> fen_castle_rights >> fen_en_passant >> fen_halfmove_clock
-            >> fen_fullmove_number;
+        std::stringstream {this->to_fen()} >> fen_board >> fen_turn >> fen_castle_rights >>
+            fen_en_passant >> fen_halfmove_clock >> fen_fullmove_number;
 
-        fancy_string +=
-            "Move number: " + fen_fullmove_number +
-            " Turn: " + fen_turn +
-            " Castle rights: " + fen_castle_rights +
-            " En passant: " + fen_en_passant +
-            " Halfmove clock: " + fen_halfmove_clock + "\n";
+        fancy_string += "Move number: " + fen_fullmove_number + " Turn: " + fen_turn +
+                        " Castle rights: " + fen_castle_rights + " En passant: " + fen_en_passant +
+                        " Halfmove clock: " + fen_halfmove_clock + "\n";
 
         for (const std::array<piece, 8>& row: grid) {
             for (const piece& grid_piece: row) {
@@ -143,4 +154,4 @@ namespace esochess {
 
         return fancy_string;
     }
-}
+} // namespace esochess

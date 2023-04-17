@@ -15,20 +15,28 @@ namespace esochess {
     struct bitboard {
         using bit_representation = std::uint64_t;
 
-        enum class Turn {White, Black, None, All};
-        enum class PieceType {Any, AnyPromotion, Pawn, Knight, Bishop, Rook, Queen, King};
+        enum class Turn { White, Black, None, All };
+        enum class PieceType { Any, AnyPromotion, Pawn, Knight, Bishop, Rook, Queen, King };
         enum class Direction { // Ordinal cordinate where `North` tends towards the 8th rank
                                // `South` tends towards the 1st rank
                                // `East` tends towards the 'h' file
                                // `West` tends towards the 'a' file
-            North, NorthEast, East, SouthEast,
-            South, SouthWest, West, NorthWest};
-        enum class CastleType {KingSide, QueenSide};
+            North,
+            NorthEast,
+            East,
+            SouthEast,
+            South,
+            SouthWest,
+            West,
+            NorthWest
+        };
+        enum class CastleType { KingSide, QueenSide };
 
         static constexpr int white_pawn_starting_rank {1};
         static constexpr int black_pawn_starting_rank {6};
 
-        static constexpr const char* const starting_position_fen {"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
+        static constexpr const char* const starting_position_fen {
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"};
 
         struct piece {
             [[nodiscard]] std::string to_string() const;
@@ -76,8 +84,7 @@ namespace esochess {
         };
 
         struct pieces {
-            static constexpr piece
-                white_pawn {PieceType::Pawn, Turn::White, 'P', 0},
+            static constexpr piece white_pawn {PieceType::Pawn, Turn::White, 'P', 0},
                 white_knight {PieceType::Knight, Turn::White, 'N', 1},
                 white_bishop {PieceType::Bishop, Turn::White, 'B', 2},
                 white_rook {PieceType::Rook, Turn::White, 'R', 3},
@@ -93,49 +100,36 @@ namespace esochess {
 
             static constexpr std::array<piece, 12> all_pieces {
                 white_pawn, white_knight, white_bishop, white_rook, white_queen, white_king,
-                black_pawn, black_knight, black_bishop, black_rook, black_queen, black_king
-            };
+                black_pawn, black_knight, black_bishop, black_rook, black_queen, black_king};
 
             static constexpr std::array<piece, 6> white_pieces {
-                white_pawn, white_knight, white_bishop, white_rook, white_queen, white_king
-            };
+                white_pawn, white_knight, white_bishop, white_rook, white_queen, white_king};
 
             static constexpr std::array<piece, 6> black_pieces {
-                black_pawn, black_knight, black_bishop, black_rook, black_queen, black_king
-            };
+                black_pawn, black_knight, black_bishop, black_rook, black_queen, black_king};
 
             static constexpr std::array<piece, 4> white_pawn_promotion_pieces {
-                white_knight, white_bishop, white_rook, white_queen
-            };
+                white_knight, white_bishop, white_rook, white_queen};
 
             static constexpr std::array<piece, 4> black_pawn_promotion_pieces {
-                black_knight, black_bishop, black_rook, black_queen
-            };
+                black_knight, black_bishop, black_rook, black_queen};
 
-            static constexpr std::array<piece, 3> white_rook_bishop_queen {
-                white_bishop, white_rook, white_queen
-            };
+            static constexpr std::array<piece, 3> white_rook_bishop_queen {white_bishop, white_rook,
+                                                                           white_queen};
 
-            static constexpr std::array<piece, 3> black_rook_bishop_queen {
-                black_bishop, black_rook, black_queen
-            };
+            static constexpr std::array<piece, 3> black_rook_bishop_queen {black_bishop, black_rook,
+                                                                           black_queen};
 
             static constexpr std::array<Direction, 4> bishop_directions {
-                Direction::NorthEast, Direction::NorthWest,
-                Direction::SouthEast, Direction::SouthWest
-            };
+                Direction::NorthEast, Direction::NorthWest, Direction::SouthEast,
+                Direction::SouthWest};
 
             static constexpr std::array<Direction, 4> rook_directions {
-                Direction::North, Direction::East,
-                Direction::South, Direction::West
-            };
+                Direction::North, Direction::East, Direction::South, Direction::West};
 
             static constexpr std::array<Direction, 8> all_directions {
-                Direction::North, Direction::NorthEast,
-                Direction::East, Direction::SouthEast,
-                Direction::South, Direction::SouthWest,
-                Direction::West, Direction::NorthWest
-            };
+                Direction::North, Direction::NorthEast, Direction::East, Direction::SouthEast,
+                Direction::South, Direction::SouthWest, Direction::West, Direction::NorthWest};
 
             static piece from_symbol(char symbol);
             static piece from_index(std::size_t index);
@@ -159,9 +153,7 @@ namespace esochess {
             bool operator==(const castle_rights_collection& other) const = default;
         };
 
-        enum class MoveTypes {
-            Normal, Capture, EnPassant, Castle, Promotion, PromotionCapture
-        };
+        enum class MoveTypes { Normal, Capture, EnPassant, Castle, Promotion, PromotionCapture };
 
         struct move_normal {
             move_normal() = default;
@@ -195,7 +187,8 @@ namespace esochess {
 
         struct move_promotion {
             move_promotion() = default;
-            move_promotion(bit_representation bit_from, PieceType promotion_type, Direction promotion_direction);
+            move_promotion(bit_representation bit_from, PieceType promotion_type,
+                           Direction promotion_direction);
 
             static constexpr std::size_t variant_index {3};
 
@@ -205,11 +198,7 @@ namespace esochess {
             PieceType promotion_type;
         };
 
-        using move = std::variant<
-            move_normal,
-            move_en_passant,
-            move_castle,
-            move_promotion>;
+        using move = std::variant<move_normal, move_en_passant, move_castle, move_promotion>;
 
         bitboard& make_move(const move_normal& move);
         bitboard& make_move(const move_en_passant& move);
@@ -251,7 +240,7 @@ namespace esochess {
         };
 
         struct cached_moves_listing_t { // Avoid recalculating the moves listing
-            int full_move_calculated; // The fullmove in which these move listing were calculated
+            int full_move_calculated;   // The fullmove in which these move listing were calculated
 
             bool white_pieces_moves_complete {};
             bool black_pieces_moves_complete {};
@@ -265,8 +254,13 @@ namespace esochess {
             std::optional<bit_representation> white_controlled_squares;
             std::optional<bit_representation> black_controlled_squares;
 
-            bool operator==(const cached_moves_listing_t&) const { return true; }
-            bool operator!=(const cached_moves_listing_t&) const { return true; }
+            bool operator==(const cached_moves_listing_t&) const {
+                return true;
+            }
+
+            bool operator!=(const cached_moves_listing_t&) const {
+                return true;
+            }
         };
 
         [[nodiscard]] moves_listing available_moves(Turn turn) const;
@@ -290,6 +284,6 @@ namespace esochess {
 
         cached_moves_listing_t _cached_moves_listing;
     };
-}
+} // namespace esochess
 
 #endif
