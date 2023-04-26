@@ -23,7 +23,7 @@ namespace esochess {
             }
 
             if (turn == bitboard::Turn::White) {
-                if (board.color_at_square(pawn_cordinate.north(1)) == bitboard::Turn::None) {
+                if (board.color_at_square(pawn_cordinate.north(1)) == bitboard::Turn::None) { // Normal moves
                     moves_listing_ext.normal_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(),
                         pawn_cordinate.north(1).to_bit_representation());
@@ -36,7 +36,7 @@ namespace esochess {
                     }
                 }
 
-                for (const bitboard::cordinate& capture_square:
+                for (const bitboard::cordinate& capture_square: // Capture moves
                      {pawn_cordinate.northeast(1), pawn_cordinate.northwest(1)}) {
                     if (bitboard::in_bounds(capture_square) &&
                         board.color_at_square(capture_square) == opposite_turn) {
@@ -48,7 +48,7 @@ namespace esochess {
             }
 
             else {
-                if (board.color_at_square(pawn_cordinate.south(1)) == bitboard::Turn::None) {
+                if (board.color_at_square(pawn_cordinate.south(1)) == bitboard::Turn::None) { // Normal moves
                     moves_listing_ext.normal_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(),
                         pawn_cordinate.south(1).to_bit_representation());
@@ -61,7 +61,7 @@ namespace esochess {
                     }
                 }
 
-                for (const bitboard::cordinate& capture_square:
+                for (const bitboard::cordinate& capture_square: // Capture moves
                      {pawn_cordinate.southeast(1), pawn_cordinate.southwest(1)}) {
                     if (bitboard::in_bounds(capture_square) &&
                         board.color_at_square(capture_square) == opposite_turn) {
