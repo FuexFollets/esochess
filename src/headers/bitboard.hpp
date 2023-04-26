@@ -254,13 +254,8 @@ namespace esochess {
             std::optional<bit_representation> white_controlled_squares;
             std::optional<bit_representation> black_controlled_squares;
 
-            bool operator==(const cached_moves_listing_t&) const {
-                return true;
-            }
-
-            bool operator!=(const cached_moves_listing_t&) const {
-                return true;
-            }
+            bool operator==(const cached_moves_listing_t&) const; // Always return true
+            bool operator!=(const cached_moves_listing_t&) const; // Always return true
         };
 
         [[nodiscard]] moves_listing available_moves(Turn turn) const;
