@@ -43,6 +43,9 @@ namespace esochess {
                         moves_listing_ext.normal_moves.emplace_back(
                             pawn_cordinate.to_bit_representation(),
                             capture_square.to_bit_representation());
+
+                        add_controlled_squares_to_bitboard(
+                            board, capture_square.to_bit_representation(), turn);
                     }
                 }
             }
@@ -68,6 +71,9 @@ namespace esochess {
                         moves_listing_ext.normal_moves.emplace_back(
                             pawn_cordinate.to_bit_representation(),
                             capture_square.to_bit_representation());
+
+                        add_controlled_squares_to_bitboard(
+                            board, capture_square.to_bit_representation(), turn);
                     }
                 }
             }
