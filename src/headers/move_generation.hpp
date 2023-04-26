@@ -27,7 +27,7 @@ namespace esochess {
         std::optional<bitboard::bit_representation>& controlled_squares_bits,
         const bitboard::bit_representation& bit_mask);
 
-    void add_controlled_squares(bitboard& bitboard_ext,
+    void add_controlled_squares_to_bitboard(bitboard& bitboard_ext,
                                 const bitboard::bit_representation& controlled_squares,
                                 bitboard::Turn turn);
 } // namespace esochess
