@@ -8,12 +8,6 @@
 
 namespace esochess {
     void add_king_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext) {
-        constexpr static std::array<bitboard::Direction, 8> all_directions {
-            bitboard::Direction::North, bitboard::Direction::NorthEast,
-            bitboard::Direction::East,  bitboard::Direction::SouthEast,
-            bitboard::Direction::South, bitboard::Direction::SouthWest,
-            bitboard::Direction::West,  bitboard::Direction::NorthWest};
-
         const bitboard::Turn turn {board.turn()};
         const bitboard::bit_representation king_bitboard {board.bitboards().at(
             turn == bitboard::Turn::White ? bitboard::pieces::white_king.bitboard_index
@@ -30,11 +24,13 @@ namespace esochess {
                                            : board.cached_moves_listing().white_controlled_squares)
                 .value_or(0)};
 
-        for (const bitboard::Direction king_direction: all_directions) {
+        for (const bitboard::Direction king_direction: bitboard::pieces::all_directions) {
             const bitboard::cordinate cordinate_in_direction {
                 king_cordinate.in_direction(king_direction, 1)};
             const bitboard::bit_representation cordinate_in_direction_bits {
                 cordinate_in_direction.to_bit_representation()};
+
+            add_controlled_squares_to_bitboard(board, cordinate_in_direction_bits, turn);
 
             if (bitboard::in_bounds(cordinate_in_direction) &&
                 (board.bitboard_bitor_accumulation(turn) & cordinate_in_direction_bits) == 0 &&
@@ -196,6 +192,8 @@ namespace esochess {
                 const bitboard::bit_representation cordinate_after_steps_bits {
                     cordinate_after_steps.to_bit_representation()};
 
+                add_controlled_squares_to_bitboard(board, cordinate_after_steps_bits, turn);
+
                 if (!bitboard::in_bounds(cordinate_after_steps) ||
                     (current_turns_pieces_positions_bits & cordinate_after_steps_bits) != 0) {
                     break; // Do not continue searching for moves in this direction
@@ -204,7 +202,6 @@ namespace esochess {
                 if ((opponent_piece_positions_bits & cordinate_after_steps_bits) != 0) {
                     moves_listing_ext.normal_moves.emplace_back(bishop_cordinate_bits,
                                                                 cordinate_after_steps_bits);
-
                     break;
                 }
 
@@ -231,6 +228,8 @@ namespace esochess {
                     at_cordinate.in_direction(direction, steps)};
                 const bitboard::bit_representation cordinate_after_steps_bits {
                     cordinate_after_steps.to_bit_representation()};
+
+                add_controlled_squares_to_bitboard(board, cordinate_after_steps_bits, turn);
 
                 if (!bitboard::in_bounds(cordinate_after_steps) ||
                     (current_turns_pieces_positions_bits & cordinate_after_steps_bits) != 0) {
@@ -268,6 +267,8 @@ namespace esochess {
                 const bitboard::bit_representation cordinate_after_steps_bits {
                     cordinate_after_steps.to_bit_representation()};
 
+                add_controlled_squares_to_bitboard(board, cordinate_after_steps_bits, turn);
+
                 if (!bitboard::in_bounds(cordinate_after_steps) ||
                     (current_turns_pieces_positions_bits & cordinate_after_steps_bits) != 0) {
                     break; // Do not continue searching for moves in this direction
@@ -302,6 +303,8 @@ namespace esochess {
             for (const auto& [x_difference, y_difference]: knight_move_differences) {
                 const bitboard::cordinate cordinate_after_move {
                     knight_cordinate.north(x_difference).east(y_difference)};
+
+                add_controlled_squares_to_bitboard(board, cordinate_after_move.to_bit_representation(), turn);
 
                 if (!bitboard::in_bounds(cordinate_after_move)) {
                     continue;
