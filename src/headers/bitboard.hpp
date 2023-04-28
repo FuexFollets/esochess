@@ -198,7 +198,7 @@ namespace esochess {
             PieceType promotion_type;
         };
 
-        using move = std::variant<move_normal, move_en_passant, move_castle, move_promotion>;
+        // using move = std::variant<move_normal, move_en_passant, move_castle, move_promotion>;
 
         bitboard& make_move(const move_normal& move);
         bitboard& make_move(const move_en_passant& move);
