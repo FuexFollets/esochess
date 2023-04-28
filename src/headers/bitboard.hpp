@@ -206,6 +206,10 @@ namespace esochess {
         bitboard& make_move(const move_castle& move);
         bitboard& make_move(const move_promotion& move);
 
+        bitboard& remove_piece_at_square(const cordinate& cord);
+        bitboard& remove_piece_at_square(const bit_representation& cord);
+        bitboard& add_piece_at_square(const cordinate& cord, piece piece);
+
         bitboard() = default;
         bitboard(const bitboard& other) = default;
         bitboard(bitboard&& other) = default;
