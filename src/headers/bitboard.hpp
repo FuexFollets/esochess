@@ -195,7 +195,7 @@ namespace esochess {
 
             Direction promotion_direction;
 
-            bit_representation from;
+            bit_representation start;
             PieceType promotion_type;
         };
 
