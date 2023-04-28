@@ -304,7 +304,8 @@ namespace esochess {
                 const bitboard::cordinate cordinate_after_move {
                     knight_cordinate.north(x_difference).east(y_difference)};
 
-                add_controlled_squares_to_bitboard(board, cordinate_after_move.to_bit_representation(), turn);
+                add_controlled_squares_to_bitboard(
+                    board, cordinate_after_move.to_bit_representation(), turn);
 
                 if (!bitboard::in_bounds(cordinate_after_move)) {
                     continue;
@@ -335,8 +336,8 @@ namespace esochess {
     }
 
     void add_controlled_squares_to_bitboard(bitboard& bitboard_ext,
-                                const bitboard::bit_representation& controlled_squares,
-                                bitboard::Turn turn) {
+                                            const bitboard::bit_representation& controlled_squares,
+                                            bitboard::Turn turn) {
         bitor_add_controlled_squares(
             turn == bitboard::Turn::White
                 ? bitboard_ext.cached_moves_listing().white_controlled_squares

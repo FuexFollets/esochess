@@ -21,14 +21,14 @@ namespace esochess {
                                 * `South` tends towards the 1st rank
                                 * `East` tends towards the 'h' file
                                 * `West` tends towards the 'a' file */
-            North,
-            NorthEast,
-            East,
-            SouthEast,
-            South,
-            SouthWest,
-            West,
-            NorthWest
+                               North,
+                               NorthEast,
+                               East,
+                               SouthEast,
+                               South,
+                               SouthWest,
+                               West,
+                               NorthWest
         };
         enum class CastleType { KingSide, QueenSide };
 

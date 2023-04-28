@@ -22,15 +22,17 @@ namespace esochess {
         const piece piece_taken {pieces::from_type_and_turn(PieceType::Pawn, opponents_turn)};
         const piece piece_moved {pieces::from_type_and_turn(PieceType::Pawn, turn)};
 
-        const cordinate cordinate_moved_from {
-            square_taken_cordinate.in_direction(
-                    (move.en_passant_direction == Direction::NorthWest ||
-                     move.en_passant_direction == Direction::SouthWest) ? Direction::East : Direction::West, 1)
-        };
+        const cordinate cordinate_moved_from {square_taken_cordinate.in_direction(
+            (move.en_passant_direction == Direction::NorthWest ||
+             move.en_passant_direction == Direction::SouthWest)
+                ? Direction::East
+                : Direction::West,
+            1)};
 
         _bitboards.at(piece_taken.bitboard_index) ^= square_taken_cordinate.to_bit_representation();
-        _bitboards.at(piece_moved.bitboard_index) ^= (cordinate_moved_from.to_bit_representation() |
-                                                      square_taken_cordinate.to_bit_representation());
+        _bitboards.at(piece_moved.bitboard_index) ^=
+            (cordinate_moved_from.to_bit_representation() |
+             square_taken_cordinate.to_bit_representation());
 
         return *this;
     }
@@ -39,31 +41,41 @@ namespace esochess {
         if (move.turn == Turn::White) {
             _bitboards.at(pieces::white_king.bitboard_index) =
                 move.castle_type == CastleType::KingSide ? cordinate {"g1"}.to_bit_representation()
-                : cordinate {"c1"}.to_bit_representation();
+                                                         : cordinate {"c1"}.to_bit_representation();
 
             if (move.castle_type == CastleType::KingSide) {
-                _bitboards.at(pieces::white_rook.bitboard_index) ^= cordinate {"h1"}.to_bit_representation();
-                _bitboards.at(pieces::white_rook.bitboard_index) = cordinate {"f1"}.to_bit_representation();
-            } else {
-                _bitboards.at(pieces::white_rook.bitboard_index) ^= cordinate {"a1"}.to_bit_representation();
-                _bitboards.at(pieces::white_rook.bitboard_index) = cordinate {"d1"}.to_bit_representation();
+                _bitboards.at(pieces::white_rook.bitboard_index) ^=
+                    cordinate {"h1"}.to_bit_representation();
+                _bitboards.at(pieces::white_rook.bitboard_index) =
+                    cordinate {"f1"}.to_bit_representation();
+            }
+            else {
+                _bitboards.at(pieces::white_rook.bitboard_index) ^=
+                    cordinate {"a1"}.to_bit_representation();
+                _bitboards.at(pieces::white_rook.bitboard_index) =
+                    cordinate {"d1"}.to_bit_representation();
             }
         }
 
         if (move.turn == Turn::Black) {
             _bitboards.at(pieces::white_king.bitboard_index) =
                 move.castle_type == CastleType::KingSide ? cordinate {"g8"}.to_bit_representation()
-                : cordinate {"c8"}.to_bit_representation();
+                                                         : cordinate {"c8"}.to_bit_representation();
 
             if (move.castle_type == CastleType::KingSide) {
-                _bitboards.at(pieces::white_rook.bitboard_index) ^= cordinate {"h8"}.to_bit_representation();
-                _bitboards.at(pieces::white_rook.bitboard_index) = cordinate {"f8"}.to_bit_representation();
-            } else {
-                _bitboards.at(pieces::white_rook.bitboard_index) ^= cordinate {"a8"}.to_bit_representation();
-                _bitboards.at(pieces::white_rook.bitboard_index) = cordinate {"d8"}.to_bit_representation();
+                _bitboards.at(pieces::white_rook.bitboard_index) ^=
+                    cordinate {"h8"}.to_bit_representation();
+                _bitboards.at(pieces::white_rook.bitboard_index) =
+                    cordinate {"f8"}.to_bit_representation();
+            }
+            else {
+                _bitboards.at(pieces::white_rook.bitboard_index) ^=
+                    cordinate {"a8"}.to_bit_representation();
+                _bitboards.at(pieces::white_rook.bitboard_index) =
+                    cordinate {"d8"}.to_bit_representation();
             }
         }
 
         return *this;
     }
-}
+} // namespace esochess
