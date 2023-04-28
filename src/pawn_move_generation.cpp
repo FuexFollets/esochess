@@ -179,12 +179,16 @@ namespace esochess {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::NorthWest);
+                    add_controlled_squares_to_bitboard(board,
+                            pawn_cordinate.northwest(1).to_bit_representation(), turn);
                 }
 
                 if (board.color_at_square(pawn_cordinate.northeast(1)) == opposite_turn) {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::NorthEast);
+                    add_controlled_squares_to_bitboard(board,
+                            pawn_cordinate.northeast(1).to_bit_representation(), turn);
                 }
             }
         }
@@ -204,12 +208,16 @@ namespace esochess {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::SouthWest);
+                    add_controlled_squares_to_bitboard(board,
+                            pawn_cordinate.southwest(1).to_bit_representation(), turn);
                 }
 
                 if (board.color_at_square(pawn_cordinate.southeast(1)) == opposite_turn) {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::SouthEast);
+                    add_controlled_squares_to_bitboard(board,
+                            pawn_cordinate.southeast(1).to_bit_representation(), turn);
                 }
             }
         }
