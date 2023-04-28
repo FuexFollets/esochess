@@ -54,6 +54,7 @@ namespace esochess {
         struct cordinate {
             cordinate() = default;
             cordinate(int pos_x, int pos_y);
+            explicit cordinate(std::string cordinate_string);
             explicit cordinate(bit_representation bit_mask);
 
             bool operator==(const cordinate& other) const = default;
@@ -161,8 +162,8 @@ namespace esochess {
 
             static constexpr std::size_t variant_index {0};
 
-            bit_representation from;
-            bit_representation to;
+            bit_representation start;
+            bit_representation end;
         };
 
         struct move_en_passant {
@@ -265,6 +266,7 @@ namespace esochess {
         [[nodiscard]] cached_moves_listing_t& cached_moves_listing();
 
         static Turn opposite_turn(Turn turn);
+        static Turn opposite_turn(const piece& piece);
         static std::vector<cordinate> cordinate_from_bit_representation(bit_representation bits);
         static bool in_bounds(const cordinate& cord);
 
