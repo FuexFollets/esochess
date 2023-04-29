@@ -82,18 +82,21 @@ namespace esochess {
     bitboard& bitboard::make_move(const move_promotion& move) {
         const piece piece_moved {pieces::from_type_and_turn(PieceType::Pawn, _turn)};
         const piece piece_promoted_to {pieces::from_type_and_turn(move.promotion_type, _turn)};
-        const cordinate cordinate_moved_to {cordinate {move.start}.in_direction(
-                move.promotion_direction, 1)};
+        const cordinate cordinate_moved_to {
+            cordinate {move.start}.in_direction(move.promotion_direction, 1)};
 
         _bitboards.at(piece_moved.bitboard_index) ^= move.start;
 
-        if (move.promotion_direction == Direction::North || move.promotion_direction == Direction::South) {
-            _bitboards.at(piece_promoted_to.bitboard_index) |= cordinate_moved_to.to_bit_representation();
+        if (move.promotion_direction == Direction::North ||
+            move.promotion_direction == Direction::South) {
+            _bitboards.at(piece_promoted_to.bitboard_index) |=
+                cordinate_moved_to.to_bit_representation();
         }
 
         else {
             remove_piece_at_square(cordinate_moved_to);
-            _bitboards.at(piece_promoted_to.bitboard_index) |= cordinate_moved_to.to_bit_representation();
+            _bitboards.at(piece_promoted_to.bitboard_index) |=
+                cordinate_moved_to.to_bit_representation();
         }
 
         return *this;
