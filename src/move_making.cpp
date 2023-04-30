@@ -6,11 +6,10 @@ namespace esochess {
         const piece piece_at_square_moved_to {piece_at_square(move.end)};
 
         if (piece_at_square_moved_to != pieces::empty_piece) {
-            _bitboards.at(piece_at_square_moved_to.bitboard_index) ^= move.end;
+            remove_piece_at_square(move.end, piece_at_square_moved_to);
         }
 
-        _bitboards.at(piece_moved.bitboard_index) ^= move.start;
-        _bitboards.at(piece_moved.bitboard_index) |= move.end;
+        xor_piece(move.start | move.end, piece_moved);
 
         return *this;
     }
@@ -29,10 +28,10 @@ namespace esochess {
                 : Direction::West,
             1)};
 
-        _bitboards.at(piece_taken.bitboard_index) ^= square_taken_cordinate.to_bit_representation();
-        _bitboards.at(piece_moved.bitboard_index) ^=
-            (cordinate_moved_from.to_bit_representation() |
-             square_taken_cordinate.to_bit_representation());
+        remove_piece_at_square(square_taken_cordinate, piece_taken);
+
+        xor_piece(cordinate_moved_from.to_bit_representation() |
+             square_taken_cordinate.to_bit_representation(), piece_moved);
 
         return *this;
     }
@@ -44,38 +43,29 @@ namespace esochess {
                                                          : cordinate {"c1"}.to_bit_representation();
 
             if (move.castle_type == CastleType::KingSide) {
-                _bitboards.at(pieces::white_rook.bitboard_index) ^=
-                    cordinate {"h1"}.to_bit_representation();
-                _bitboards.at(pieces::white_rook.bitboard_index) =
-                    cordinate {"f1"}.to_bit_representation();
+                xor_piece(cordinate {"h1"}.to_bit_representation() |
+                     cordinate {"f1"}.to_bit_representation(), pieces::white_rook);
             }
 
             else {
-                _bitboards.at(pieces::white_rook.bitboard_index) ^=
-                    cordinate {"a1"}.to_bit_representation();
-                _bitboards.at(pieces::white_rook.bitboard_index) =
-                    cordinate {"d1"}.to_bit_representation();
+                xor_piece(cordinate {"a1"}.to_bit_representation() |
+                     cordinate {"d1"}.to_bit_representation(), pieces::white_rook);
             }
         }
 
         if (move.turn == Turn::Black) {
-            _bitboards.at(pieces::white_king.bitboard_index) =
+            _bitboards.at(pieces::black_king.bitboard_index) =
                 move.castle_type == CastleType::KingSide ? cordinate {"g8"}.to_bit_representation()
                                                          : cordinate {"c8"}.to_bit_representation();
 
             if (move.castle_type == CastleType::KingSide) {
-                _bitboards.at(pieces::white_rook.bitboard_index) ^=
-                    cordinate {"h8"}.to_bit_representation();
-
-                remove_piece_at_square(cordinate {"h8"}, pieces::white_rook);
-                _bitboards.at(pieces::white_rook.bitboard_index) =
-                    cordinate {"f8"}.to_bit_representation();
+                xor_piece(cordinate {"h8"}.to_bit_representation() |
+                     cordinate {"f8"}.to_bit_representation(), pieces::black_rook);
             }
+
             else {
-                _bitboards.at(pieces::white_rook.bitboard_index) ^=
-                    cordinate {"a8"}.to_bit_representation();
-                _bitboards.at(pieces::white_rook.bitboard_index) =
-                    cordinate {"d8"}.to_bit_representation();
+                xor_piece(cordinate {"a8"}.to_bit_representation() |
+                     cordinate {"d8"}.to_bit_representation(), pieces::black_rook);
             }
         }
 
@@ -88,7 +78,7 @@ namespace esochess {
         const cordinate cordinate_moved_to {
             cordinate {move.start}.in_direction(move.promotion_direction, 1)};
 
-        _bitboards.at(piece_moved.bitboard_index) ^= move.start;
+        remove_piece_at_square(move.start, piece_moved);
 
         if (move.promotion_direction == Direction::North ||
             move.promotion_direction == Direction::South) {
