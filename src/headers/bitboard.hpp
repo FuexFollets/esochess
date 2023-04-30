@@ -208,7 +208,12 @@ namespace esochess {
 
         bitboard& remove_piece_at_square(const cordinate& cord);
         bitboard& remove_piece_at_square(const bit_representation& cord);
+
+        bitboard& remove_piece_at_square(const cordinate& cord, const piece& piece_removed);
+        bitboard& remove_piece_at_square(const bit_representation& cord, const piece& piece_removed);
+
         bitboard& add_piece_at_square(const cordinate& cord, piece piece);
+        bitboard& add_piece_at_square(const bit_representation& cord, piece piece);
 
         bitboard() = default;
         bitboard(const bitboard& other) = default;

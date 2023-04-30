@@ -49,6 +49,7 @@ namespace esochess {
                 _bitboards.at(pieces::white_rook.bitboard_index) =
                     cordinate {"f1"}.to_bit_representation();
             }
+
             else {
                 _bitboards.at(pieces::white_rook.bitboard_index) ^=
                     cordinate {"a1"}.to_bit_representation();
@@ -65,6 +66,8 @@ namespace esochess {
             if (move.castle_type == CastleType::KingSide) {
                 _bitboards.at(pieces::white_rook.bitboard_index) ^=
                     cordinate {"h8"}.to_bit_representation();
+
+                remove_piece_at_square(cordinate {"h8"}, pieces::white_rook);
                 _bitboards.at(pieces::white_rook.bitboard_index) =
                     cordinate {"f8"}.to_bit_representation();
             }
@@ -89,14 +92,12 @@ namespace esochess {
 
         if (move.promotion_direction == Direction::North ||
             move.promotion_direction == Direction::South) {
-            _bitboards.at(piece_promoted_to.bitboard_index) |=
-                cordinate_moved_to.to_bit_representation();
+            add_piece_at_square(cordinate_moved_to, piece_promoted_to);
         }
 
-        else {
+        else { // diagonal promotion
             remove_piece_at_square(cordinate_moved_to);
-            _bitboards.at(piece_promoted_to.bitboard_index) |=
-                cordinate_moved_to.to_bit_representation();
+            add_piece_at_square(cordinate_moved_to, piece_promoted_to);
         }
 
         return *this;
