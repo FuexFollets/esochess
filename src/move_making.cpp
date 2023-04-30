@@ -31,7 +31,8 @@ namespace esochess {
         remove_piece_at_square(square_taken_cordinate, piece_taken);
 
         xor_piece(cordinate_moved_from.to_bit_representation() |
-             square_taken_cordinate.to_bit_representation(), piece_moved);
+                      square_taken_cordinate.to_bit_representation(),
+                  piece_moved);
 
         return *this;
     }
@@ -44,12 +45,14 @@ namespace esochess {
 
             if (move.castle_type == CastleType::KingSide) {
                 xor_piece(cordinate {"h1"}.to_bit_representation() |
-                     cordinate {"f1"}.to_bit_representation(), pieces::white_rook);
+                              cordinate {"f1"}.to_bit_representation(),
+                          pieces::white_rook);
             }
 
             else {
                 xor_piece(cordinate {"a1"}.to_bit_representation() |
-                     cordinate {"d1"}.to_bit_representation(), pieces::white_rook);
+                              cordinate {"d1"}.to_bit_representation(),
+                          pieces::white_rook);
             }
         }
 
@@ -60,12 +63,14 @@ namespace esochess {
 
             if (move.castle_type == CastleType::KingSide) {
                 xor_piece(cordinate {"h8"}.to_bit_representation() |
-                     cordinate {"f8"}.to_bit_representation(), pieces::black_rook);
+                              cordinate {"f8"}.to_bit_representation(),
+                          pieces::black_rook);
             }
 
             else {
                 xor_piece(cordinate {"a8"}.to_bit_representation() |
-                     cordinate {"d8"}.to_bit_representation(), pieces::black_rook);
+                              cordinate {"d8"}.to_bit_representation(),
+                          pieces::black_rook);
             }
         }
 

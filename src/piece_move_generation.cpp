@@ -304,7 +304,8 @@ namespace esochess {
         for (const bitboard::cordinate& knight_cordinate: knight_positions) {
             for (const auto& [x_difference, y_difference]: knight_move_differences) {
                 const bitboard::cordinate cordinate_after_move {
-                    knight_cordinate.in_direction(Direction::North, x_difference).in_direction(Direction::East, y_difference)};
+                    knight_cordinate.in_direction(Direction::North, x_difference)
+                        .in_direction(Direction::East, y_difference)};
 
                 add_controlled_squares_to_bitboard(
                     board, cordinate_after_move.to_bit_representation(), turn);
