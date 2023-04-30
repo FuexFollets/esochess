@@ -26,7 +26,7 @@ namespace esochess {
 
         for (const bitboard::Direction king_direction: bitboard::pieces::all_directions) {
             const bitboard::cordinate cordinate_in_direction {
-                king_cordinate.in_direction(king_direction, 1)};
+                king_cordinate.in_direction(king_direction)};
             const bitboard::bit_representation cordinate_in_direction_bits {
                 cordinate_in_direction.to_bit_representation()};
 
