@@ -41,8 +41,8 @@ namespace esochess {
         struct piece {
             [[nodiscard]] std::string to_string() const;
 
-            bool operator!=(const piece& other) const = default;
-            bool operator==(const piece& other) const = default;
+            bool operator!=(const piece& other) const noexcept = default;
+            bool operator==(const piece& other) const noexcept = default;
 
             PieceType piece_type;
             Turn turn;
@@ -57,8 +57,8 @@ namespace esochess {
             explicit cordinate(std::string cordinate_string);
             explicit cordinate(bit_representation bit_mask);
 
-            bool operator==(const cordinate& other) const = default;
-            bool operator!=(const cordinate& other) const = default;
+            bool operator==(const cordinate& other) const noexcept = default;
+            bool operator!=(const cordinate& other) const noexcept = default;
 
             [[nodiscard]] int pos_x() const;
             [[nodiscard]] int pos_y() const;
@@ -141,7 +141,8 @@ namespace esochess {
             std::uint8_t column_index;
             Turn captureable_piece_color;
 
-            bool operator==(const en_passant_square& other) const = default;
+            bool operator==(const en_passant_square& other) const noexcept = default;
+            bool operator!=(const en_passant_square& other) const noexcept = default;
             [[nodiscard]] cordinate to_cordinate() const;
         };
 
@@ -151,7 +152,8 @@ namespace esochess {
             bool black_king_side;
             bool black_queen_side;
 
-            bool operator==(const castle_rights_collection& other) const = default;
+            bool operator==(const castle_rights_collection& other) const noexcept = default;
+            bool operator!=(const castle_rights_collection& other) const noexcept = default;
         };
 
         enum class MoveTypes { Normal, Capture, EnPassant, Castle, Promotion, PromotionCapture };
@@ -223,8 +225,8 @@ namespace esochess {
         explicit bitboard(const std::string& fen_position);
 
         bitboard& operator=(const bitboard& other) = default;
-        bool operator==(const bitboard& other) const = default;
-        bool operator!=(const bitboard& other) const = default;
+        bool operator==(const bitboard& other) const noexcept = default;
+        bool operator!=(const bitboard& other) const noexcept = default;
 
         [[nodiscard]] Turn color_at_square(const bit_representation& bit_mask) const;
         [[nodiscard]] Turn color_at_square(const cordinate& cord) const;
@@ -266,8 +268,8 @@ namespace esochess {
             std::optional<bit_representation> white_controlled_squares;
             std::optional<bit_representation> black_controlled_squares;
 
-            bool operator==(const cached_moves_listing_t&) const; // Always return true
-            bool operator!=(const cached_moves_listing_t&) const; // Always return true
+            bool operator==(const cached_moves_listing_t&) const noexcept; // Always return true
+            bool operator!=(const cached_moves_listing_t&) const noexcept; // Always return true
         };
 
         [[nodiscard]] moves_listing available_moves(Turn turn) const;
