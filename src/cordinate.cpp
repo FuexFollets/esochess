@@ -19,6 +19,30 @@ namespace esochess {
         return _y;
     }
 
+    bitboard::cordinate bitboard::cordinate::in_direction(Direction direction, int steps) const noexcept {
+        switch (direction) {
+            case Direction::North:
+                return cordinate {_x, _y + steps};
+            case Direction::NorthEast:
+                return cordinate {_x + steps, _y + steps};
+            case Direction::East:
+                return cordinate {_x + steps, _y};
+            case Direction::SouthEast:
+                return cordinate {_x + steps, _y - steps};
+            case Direction::South:
+                return cordinate {_x, _y - steps};
+            case Direction::SouthWest:
+                return cordinate {_x - steps, _y - steps};
+            case Direction::West:
+                return cordinate {_x - steps, _y};
+            case Direction::NorthWest:
+                return cordinate {_x - steps, _y + steps};
+        }
+
+        return cordinate {_x, _y};
+    }
+
+
     bitboard::bit_representation bitboard::cordinate::to_bit_representation() const {
         return std::size_t {1} << (63 - (_x + _y * 8));
     }
