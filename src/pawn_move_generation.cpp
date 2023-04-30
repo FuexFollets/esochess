@@ -5,6 +5,8 @@
 
 namespace esochess {
     void add_pawn_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext) {
+        using Direction = bitboard::Direction;
+
         const bitboard::Turn turn {board.turn()};
         const bitboard::Turn opposite_turn {bitboard::opposite_turn(turn)};
 
@@ -23,22 +25,22 @@ namespace esochess {
             }
 
             if (turn == bitboard::Turn::White) {
-                if (board.color_at_square(pawn_cordinate.north(1)) ==
+                if (board.color_at_square(pawn_cordinate.in_direction(Direction::North)) ==
                     bitboard::Turn::None) { // Normal moves
                     moves_listing_ext.normal_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(),
-                        pawn_cordinate.north(1).to_bit_representation());
+                        pawn_cordinate.in_direction(Direction::North).to_bit_representation());
 
                     if (pawn_cordinate.pos_y() == bitboard::white_pawn_starting_rank &&
-                        board.color_at_square(pawn_cordinate.north(2)) == bitboard::Turn::None) {
+                        board.color_at_square(pawn_cordinate.in_direction(Direction::North)) == bitboard::Turn::None) {
                         moves_listing_ext.normal_moves.emplace_back(
                             pawn_cordinate.to_bit_representation(),
-                            pawn_cordinate.north(2).to_bit_representation());
+                            pawn_cordinate.in_direction(Direction::North, 2).to_bit_representation());
                     }
                 }
 
                 for (const bitboard::cordinate& capture_square: // Capture moves
-                     {pawn_cordinate.northeast(1), pawn_cordinate.northwest(1)}) {
+                     {pawn_cordinate.in_direction(Direction::NorthEast), pawn_cordinate.in_direction(Direction::NorthWest, 1)}) {
                     if (bitboard::in_bounds(capture_square) &&
                         board.color_at_square(capture_square) == opposite_turn) {
                         moves_listing_ext.normal_moves.emplace_back(
@@ -52,22 +54,22 @@ namespace esochess {
             }
 
             else {
-                if (board.color_at_square(pawn_cordinate.south(1)) ==
+                if (board.color_at_square(pawn_cordinate.in_direction(Direction::South, 1)) ==
                     bitboard::Turn::None) { // Normal moves
                     moves_listing_ext.normal_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(),
-                        pawn_cordinate.south(1).to_bit_representation());
+                        pawn_cordinate.in_direction(Direction::South, 1).to_bit_representation());
 
                     if (pawn_cordinate.pos_y() == bitboard::black_pawn_starting_rank &&
-                        board.color_at_square(pawn_cordinate.south(2)) == bitboard::Turn::None) {
+                        board.color_at_square(pawn_cordinate.in_direction(Direction::South, 2)) == bitboard::Turn::None) {
                         moves_listing_ext.normal_moves.emplace_back(
                             pawn_cordinate.to_bit_representation(),
-                            pawn_cordinate.south(2).to_bit_representation());
+                            pawn_cordinate.in_direction(Direction::South, 2).to_bit_representation());
                     }
                 }
 
                 for (const bitboard::cordinate& capture_square: // Capture moves
-                     {pawn_cordinate.southeast(1), pawn_cordinate.southwest(1)}) {
+                     {pawn_cordinate.in_direction(Direction::SouthEast, 1), pawn_cordinate.in_direction(Direction::SouthWest, 1)}) {
                     if (bitboard::in_bounds(capture_square) &&
                         board.color_at_square(capture_square) == opposite_turn) {
                         moves_listing_ext.normal_moves.emplace_back(
@@ -86,6 +88,8 @@ namespace esochess {
     }
 
     void add_pawn_en_passant_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext) {
+        using Direction = bitboard::Direction;
+
         if (!board.en_passant().has_value()) { // No en passant move possible
             return;
         }
@@ -97,43 +101,45 @@ namespace esochess {
         const bitboard::cordinate en_passant_cordinate {en_passant_square.to_cordinate()};
 
         if (board.turn() == bitboard::Turn::White &&
-            (bitboard::in_bounds(en_passant_cordinate.southeast(1))) &&
-            (board.piece_at_square(en_passant_cordinate.southeast(1)) ==
+            (bitboard::in_bounds(en_passant_cordinate.in_direction(Direction::SouthEast, 1))) &&
+            (board.piece_at_square(en_passant_cordinate.in_direction(Direction::SouthEast, 1)) ==
              bitboard::pieces::white_pawn) &&
-            (board.color_at_square(en_passant_cordinate.southeast(1)) == opposite_turn)) {
+            (board.color_at_square(en_passant_cordinate.in_direction(Direction::SouthEast, 1)) == opposite_turn)) {
             moves_listing_ext.en_passant_moves.emplace_back(en_passant_square,
                                                             bitboard::Direction::NorthWest);
         }
 
         if (board.turn() == bitboard::Turn::White &&
-            (bitboard::in_bounds(en_passant_cordinate.southwest(1))) &&
-            (board.piece_at_square(en_passant_cordinate.southwest(1)) ==
+            (bitboard::in_bounds(en_passant_cordinate.in_direction(Direction::SouthWest, 1))) &&
+            (board.piece_at_square(en_passant_cordinate.in_direction(Direction::SouthWest, 1)) ==
              bitboard::pieces::white_pawn) &&
-            (board.color_at_square(en_passant_cordinate.southwest(1)) == opposite_turn)) {
+            (board.color_at_square(en_passant_cordinate.in_direction(Direction::SouthWest, 1)) == opposite_turn)) {
             moves_listing_ext.en_passant_moves.emplace_back(en_passant_square,
                                                             bitboard::Direction::NorthEast);
         }
 
         if (board.turn() == bitboard::Turn::Black &&
-            (bitboard::in_bounds(en_passant_cordinate.northeast(1))) &&
-            (board.piece_at_square(en_passant_cordinate.northeast(1)) ==
+            (bitboard::in_bounds(en_passant_cordinate.in_direction(Direction::NorthEast, 1))) &&
+            (board.piece_at_square(en_passant_cordinate.in_direction(Direction::NorthEast, 1)) ==
              bitboard::pieces::black_pawn) &&
-            (board.color_at_square(en_passant_cordinate.northeast(1)) == opposite_turn)) {
+            (board.color_at_square(en_passant_cordinate.in_direction(Direction::NorthEast, 1)) == opposite_turn)) {
             moves_listing_ext.en_passant_moves.emplace_back(en_passant_square,
                                                             bitboard::Direction::SouthWest);
         }
 
         if (board.turn() == bitboard::Turn::Black &&
-            (bitboard::in_bounds(en_passant_cordinate.northwest(1))) &&
-            (board.piece_at_square(en_passant_cordinate.northwest(1)) ==
+            (bitboard::in_bounds(en_passant_cordinate.in_direction(Direction::NorthWest, 1))) &&
+            (board.piece_at_square(en_passant_cordinate.in_direction(Direction::NorthWest, 1)) ==
              bitboard::pieces::black_pawn) &&
-            (board.color_at_square(en_passant_cordinate.northwest(1)) == opposite_turn)) {
+            (board.color_at_square(en_passant_cordinate.in_direction(Direction::NorthWest, 1)) == opposite_turn)) {
             moves_listing_ext.en_passant_moves.emplace_back(en_passant_square,
                                                             bitboard::Direction::SouthEast);
         }
     }
 
     void add_pawn_promotion_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext) {
+        using Direction = bitboard::Direction;
+
         static const bitboard::bit_representation seventh_rank_bits {[]() {
             bitboard::bit_representation bits {};
 
@@ -171,26 +177,26 @@ namespace esochess {
                  bitboard::cordinate_from_bit_representation(
                      board.bitboards().at(bitboard::pieces::white_pawn.bitboard_index) &
                      seventh_rank_bits)) {
-                if (board.color_at_square(pawn_cordinate.north(1)) == bitboard::Turn::None) {
+                if (board.color_at_square(pawn_cordinate.in_direction(Direction::North, 1)) == bitboard::Turn::None) {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::North);
                 }
 
-                if (board.color_at_square(pawn_cordinate.northwest(1)) == opposite_turn) {
+                if (board.color_at_square(pawn_cordinate.in_direction(Direction::NorthWest, 1)) == opposite_turn) {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::NorthWest);
                     add_controlled_squares_to_bitboard(
-                        board, pawn_cordinate.northwest(1).to_bit_representation(), turn);
+                        board, pawn_cordinate.in_direction(Direction::NorthWest, 1).to_bit_representation(), turn);
                 }
 
-                if (board.color_at_square(pawn_cordinate.northeast(1)) == opposite_turn) {
+                if (board.color_at_square(pawn_cordinate.in_direction(Direction::NorthEast, 1)) == opposite_turn) {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::NorthEast);
                     add_controlled_squares_to_bitboard(
-                        board, pawn_cordinate.northeast(1).to_bit_representation(), turn);
+                        board, pawn_cordinate.in_direction(Direction::NorthEast, 1).to_bit_representation(), turn);
                 }
             }
         }
@@ -200,26 +206,26 @@ namespace esochess {
                  bitboard::cordinate_from_bit_representation(
                      board.bitboards().at(bitboard::pieces::black_pawn.bitboard_index) &
                      second_rank_bits)) {
-                if (board.color_at_square(pawn_cordinate.south(1)) == bitboard::Turn::None) {
+                if (board.color_at_square(pawn_cordinate.in_direction(Direction::South, 1)) == bitboard::Turn::None) {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::South);
                 }
 
-                if (board.color_at_square(pawn_cordinate.southwest(1)) == opposite_turn) {
+                if (board.color_at_square(pawn_cordinate.in_direction(Direction::SouthWest, 1)) == opposite_turn) {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::SouthWest);
                     add_controlled_squares_to_bitboard(
-                        board, pawn_cordinate.southwest(1).to_bit_representation(), turn);
+                        board, pawn_cordinate.in_direction(Direction::SouthWest, 1).to_bit_representation(), turn);
                 }
 
-                if (board.color_at_square(pawn_cordinate.southeast(1)) == opposite_turn) {
+                if (board.color_at_square(pawn_cordinate.in_direction(Direction::SouthEast, 1)) == opposite_turn) {
                     moves_listing_ext.promotion_moves.emplace_back(
                         pawn_cordinate.to_bit_representation(), bitboard::PieceType::AnyPromotion,
                         bitboard::Direction::SouthEast);
                     add_controlled_squares_to_bitboard(
-                        board, pawn_cordinate.southeast(1).to_bit_representation(), turn);
+                        board, pawn_cordinate.in_direction(Direction::SouthEast, 1).to_bit_representation(), turn);
                 }
             }
         }

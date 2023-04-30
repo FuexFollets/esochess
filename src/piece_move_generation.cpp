@@ -288,6 +288,8 @@ namespace esochess {
     }
 
     void add_knight_moves(bitboard& board, bitboard::moves_listing& moves_listing_ext) {
+        using Direction = bitboard::Direction;
+
         static constexpr std::array<std::pair<int, int>, 8> knight_move_differences {
             {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}}
         };
@@ -302,7 +304,7 @@ namespace esochess {
         for (const bitboard::cordinate& knight_cordinate: knight_positions) {
             for (const auto& [x_difference, y_difference]: knight_move_differences) {
                 const bitboard::cordinate cordinate_after_move {
-                    knight_cordinate.north(x_difference).east(y_difference)};
+                    knight_cordinate.in_direction(Direction::North, x_difference).in_direction(Direction::East, y_difference)};
 
                 add_controlled_squares_to_bitboard(
                     board, cordinate_after_move.to_bit_representation(), turn);
