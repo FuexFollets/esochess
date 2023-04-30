@@ -42,6 +42,10 @@ namespace esochess {
         return cordinate {_x, _y};
     }
 
+    bitboard::cordinate bitboard::cordinate::in_direction(Direction direction) const noexcept {
+        return in_direction(direction, 1);
+    }
+
 
     bitboard::bit_representation bitboard::cordinate::to_bit_representation() const {
         return std::size_t {1} << (63 - (_x + _y * 8));
