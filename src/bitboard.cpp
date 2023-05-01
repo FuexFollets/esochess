@@ -118,4 +118,30 @@ namespace esochess {
             }
         }
     }
+
+    bitboard::bitboard(const std::string& fen_position) {
+        const std::string fen_position_trimmed {fen_position.substr(0, fen_position.find(' '))};
+
+        std::size_t x_cord {0};
+        std::size_t y_cord {0};
+
+        for (const char& symbol: fen_position_trimmed) {
+            if (symbol == '/') {
+                y_cord++;
+                x_cord = 0;
+            }
+
+            else if (std::isdigit(static_cast<unsigned char>(symbol)) != 0) { // symbol is a digit
+                x_cord += std::stoi(std::string {symbol});
+            }
+
+            else {
+                const bitboard::cordinate cord {static_cast<int>(x_cord), static_cast<int>(y_cord)};
+                const bitboard::piece chess_piece {pieces::from_symbol(symbol)};
+
+                add_piece_at_square(cord, chess_piece);
+                x_cord++;
+            }
+        }
+    }
 } // namespace esochess
