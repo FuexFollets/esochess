@@ -104,4 +104,18 @@ namespace esochess {
             const bitboard::piece& piece_added) {
         return add_piece_at_square(cord.to_bit_representation(), piece_added);
     }
+
+    bitboard::bitboard(const bitboard::chess_grid& grid) {
+        for (std::size_t y_cord {0}; y_cord < grid.size(); ++y_cord) {
+            for (std::size_t x_cord {0}; x_cord < grid.at(y_cord).size(); ++x_cord) {
+
+                const bitboard::cordinate cord {static_cast<int>(x_cord), static_cast<int>(y_cord)};
+                const bitboard::piece chess_piece {grid.at(y_cord).at(x_cord)};
+
+                if (chess_piece != pieces::empty_piece) {
+                    add_piece_at_square(cord, chess_piece);
+                }
+            }
+        }
+    }
 } // namespace esochess
