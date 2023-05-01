@@ -144,4 +144,8 @@ namespace esochess {
             }
         }
     }
+
+    const bitboard::cached_moves_listing_t& bitboard::cached_moves_listing() const {
+        return _cached_moves_listing;
+    }
 } // namespace esochess

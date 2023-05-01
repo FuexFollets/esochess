@@ -271,7 +271,7 @@ namespace esochess {
         [[nodiscard]] moves_listing available_moves() const;
         [[nodiscard]] bit_representation controlled_squares(Turn checked_turn) const;
         [[nodiscard]] bit_representation bitboard_bitor_accumulation(Turn turn) const;
-        [[nodiscard]] cached_moves_listing_t& cached_moves_listing();
+        [[nodiscard]] const cached_moves_listing_t& cached_moves_listing() const;
 
         static Turn opposite_turn(Turn turn);
         static Turn opposite_turn(const piece& piece);
