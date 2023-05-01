@@ -212,9 +212,12 @@ namespace esochess {
 
         bitboard& xor_piece(const bit_representation& bits, const piece& piece_modified);
 
+        using chess_grid = std::array<std::array<piece, 8>, 8>;
         bitboard() = default;
         bitboard(const bitboard& other) = default;
         bitboard(bitboard&& other) = default;
+
+        explicit bitboard(const chess_grid& grid);
         explicit bitboard(const std::string& fen_position);
 
         bitboard& operator=(const bitboard& other) = default;
@@ -227,7 +230,6 @@ namespace esochess {
         [[nodiscard]] piece piece_at_square(const bit_representation& bit_mask) const;
         [[nodiscard]] piece piece_at_square(const cordinate& cord) const;
 
-        using chess_grid = std::array<std::array<piece, 8>, 8>;
         [[nodiscard]] chess_grid to_grid() const;
         [[nodiscard]] std::string to_fen() const;
         [[nodiscard]] std::string to_fancy_string() const;
