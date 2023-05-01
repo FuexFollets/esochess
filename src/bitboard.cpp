@@ -68,4 +68,40 @@ namespace esochess {
                                  return chess_piece.piece_type == type && chess_piece.turn == turn;
                              });
     }
+
+    bitboard& bitboard::remove_piece_at_square(const bitboard::bit_representation& bits,
+            const piece& piece_removed) {
+
+        _bitboards.at(piece_removed.bitboard_index) &= ~bits;
+
+        return *this;
+    }
+
+    bitboard& bitboard::remove_piece_at_square(const bitboard::cordinate& cord,
+            const piece& piece_removed) {
+        return remove_piece_at_square(cord.to_bit_representation(), piece_removed);
+    }
+
+    bitboard& bitboard::remove_piece_at_square(const bitboard::cordinate& cord) {
+        const piece piece_removed {piece_at_square(cord)};
+        return remove_piece_at_square(cord, piece_removed);
+    }
+
+    bitboard& bitboard::remove_piece_at_square(const bitboard::bit_representation& bits) {
+        const piece piece_removed {piece_at_square(bits)};
+        return remove_piece_at_square(bits, piece_removed);
+    }
+
+    bitboard& bitboard::add_piece_at_square(const bitboard::bit_representation& bits,
+            const bitboard::piece& piece_added) {
+
+        _bitboards.at(piece_added.bitboard_index) |= bits;
+
+        return *this;
+    }
+
+    bitboard& bitboard::add_piece_at_square(const bitboard::cordinate& cord,
+            const bitboard::piece& piece_added) {
+        return add_piece_at_square(cord.to_bit_representation(), piece_added);
+    }
 } // namespace esochess

@@ -201,14 +201,14 @@ namespace esochess {
         bitboard& make_move(const move_promotion& move);
 
         bitboard& remove_piece_at_square(const cordinate& cord);
-        bitboard& remove_piece_at_square(const bit_representation& cord);
+        bitboard& remove_piece_at_square(const bit_representation& bits);
 
         bitboard& remove_piece_at_square(const cordinate& cord, const piece& piece_removed);
-        bitboard& remove_piece_at_square(const bit_representation& cord,
+        bitboard& remove_piece_at_square(const bit_representation& bits,
                                          const piece& piece_removed);
 
-        bitboard& add_piece_at_square(const cordinate& cord, piece piece_added);
-        bitboard& add_piece_at_square(const bit_representation& cord, piece piece_added);
+        bitboard& add_piece_at_square(const cordinate& cord, const piece& piece_added);
+        bitboard& add_piece_at_square(const bit_representation& bits, const piece& piece_added);
 
         bitboard& xor_piece(const bit_representation& bits, const piece& piece_modified);
 
