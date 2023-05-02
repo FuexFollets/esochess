@@ -161,12 +161,20 @@ namespace esochess {
 
             for (const bitboard::cordinate piece_cordinate: cordinates_for_pieces) {
                 switch (piece.piece_type) {
-                    case bitboard::PieceType::Bishop:
+                    case bitboard::PieceType::Bishop: {
                         add_bishop_moves(board, moves_listing_ext, piece_cordinate);
-                    case bitboard::PieceType::Rook:
+                        break;
+                    }
+
+                    case bitboard::PieceType::Rook: {
                         add_rook_moves(board, moves_listing_ext, piece_cordinate);
-                    case bitboard::PieceType::Queen:
+                        break;
+                    }
+
+                    case bitboard::PieceType::Queen: {
                         add_queen_moves(board, moves_listing_ext, piece_cordinate);
+                        break;
+                    }
 
                     default: break;
                 }
