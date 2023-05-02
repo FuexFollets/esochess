@@ -245,7 +245,7 @@ namespace esochess {
         return moves;
     }
 
-    const bitboard::cached_moves_listing_t& bitboard::cached_moves_listing() const {
+    bitboard::cached_moves_listing_t& bitboard::cached_moves_listing() {
         return _cached_moves_listing;
     }
 
@@ -254,14 +254,14 @@ namespace esochess {
         if ((turn == Turn::White && _cached_moves_listing.white_pieces_bits_complete) ||
             (turn == Turn::Black && _cached_moves_listing.black_pieces_bits_complete)) {
             return turn == Turn::White
-                       ? _cached_moves_listing.white_pieces_bits.value_or(bit_representation {})
-                       : _cached_moves_listing.black_pieces_bits.value_or(bit_representation {});
+                       ? _cached_moves_listing.white_controlled_squares.value_or(bit_representation {})
+                       : _cached_moves_listing.black_controlled_squares.value_or(bit_representation {});
         }
 
         return std::nullopt;
     }
 
-    bitboard::bit_representtion bitboard::bitboard_bitor_accumulation(Turn turn) const {
+    bitboard::bit_representation bitboard::bitboard_bitor_accumulation(Turn turn) const {
         bit_representation accumulation {0};
 
         if (turn == Turn::White) {
