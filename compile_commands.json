@@ -2,18 +2,161 @@
   {
     "arguments": [
       "/usr/bin/g++",
-      "-c",
-      "-g",
+      "-std=c++23",
       "-Wall",
       "-Wextra",
       "-pedantic",
-      "-std=c++23",
+      "-pipe",
+      "-g",
+      "-I",
+      "./src",
+      "-c",
       "-o",
-      "./dist/esochess",
+      "dist/objects/main.o",
       "src/main.cpp"
     ],
     "directory": "/home/fuexfollets/Projects/esochess",
     "file": "/home/fuexfollets/Projects/esochess/src/main.cpp",
-    "output": "/home/fuexfollets/Projects/esochess/dist/esochess"
+    "output": "/home/fuexfollets/Projects/esochess/dist/objects/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++23",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-pipe",
+      "-g",
+      "-I",
+      "./src",
+      "-c",
+      "-o",
+      "dist/objects/bitboard.o",
+      "src/bitboard.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/esochess",
+    "file": "/home/fuexfollets/Projects/esochess/src/bitboard.cpp",
+    "output": "/home/fuexfollets/Projects/esochess/dist/objects/bitboard.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++23",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-pipe",
+      "-g",
+      "-I",
+      "./src",
+      "-c",
+      "-o",
+      "dist/objects/move_making.o",
+      "src/move_making.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/esochess",
+    "file": "/home/fuexfollets/Projects/esochess/src/move_making.cpp",
+    "output": "/home/fuexfollets/Projects/esochess/dist/objects/move_making.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++23",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-pipe",
+      "-g",
+      "-I",
+      "./src",
+      "-c",
+      "-o",
+      "dist/objects/move_construction.o",
+      "src/move_construction.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/esochess",
+    "file": "/home/fuexfollets/Projects/esochess/src/move_construction.cpp",
+    "output": "/home/fuexfollets/Projects/esochess/dist/objects/move_construction.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++23",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-pipe",
+      "-g",
+      "-I",
+      "./src",
+      "-c",
+      "-o",
+      "dist/objects/cordinate.o",
+      "src/cordinate.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/esochess",
+    "file": "/home/fuexfollets/Projects/esochess/src/cordinate.cpp",
+    "output": "/home/fuexfollets/Projects/esochess/dist/objects/cordinate.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++23",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-pipe",
+      "-g",
+      "-I",
+      "./src",
+      "-c",
+      "-o",
+      "dist/objects/bitboard_string_conversions.o",
+      "src/bitboard_string_conversions.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/esochess",
+    "file": "/home/fuexfollets/Projects/esochess/src/bitboard_string_conversions.cpp",
+    "output": "/home/fuexfollets/Projects/esochess/dist/objects/bitboard_string_conversions.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++23",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-pipe",
+      "-g",
+      "-I",
+      "./src",
+      "-c",
+      "-o",
+      "dist/objects/piece_move_generation.o",
+      "src/piece_move_generation.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/esochess",
+    "file": "/home/fuexfollets/Projects/esochess/src/piece_move_generation.cpp",
+    "output": "/home/fuexfollets/Projects/esochess/dist/objects/piece_move_generation.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++23",
+      "-Wall",
+      "-Wextra",
+      "-pedantic",
+      "-pipe",
+      "-g",
+      "-I",
+      "./src",
+      "-c",
+      "-o",
+      "dist/objects/pawn_move_generation.o",
+      "src/pawn_move_generation.cpp"
+    ],
+    "directory": "/home/fuexfollets/Projects/esochess",
+    "file": "/home/fuexfollets/Projects/esochess/src/pawn_move_generation.cpp",
+    "output": "/home/fuexfollets/Projects/esochess/dist/objects/pawn_move_generation.o"
   }
 ]
