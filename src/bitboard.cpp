@@ -4,8 +4,8 @@
 #include <optional>
 #include <string>
 
-#include "headers/move_generation.hpp"
 #include "headers/bitboard.hpp"
+#include "headers/move_generation.hpp"
 
 namespace esochess {
     std::string bitboard::piece::to_string() const {
@@ -72,15 +72,14 @@ namespace esochess {
     }
 
     bitboard& bitboard::remove_piece_at_square(const bitboard::bit_representation& bits,
-            const piece& piece_removed) {
-
+                                               const piece& piece_removed) {
         _bitboards.at(piece_removed.bitboard_index) &= ~bits;
 
         return *this;
     }
 
     bitboard& bitboard::remove_piece_at_square(const bitboard::cordinate& cord,
-            const piece& piece_removed) {
+                                               const piece& piece_removed) {
         return remove_piece_at_square(cord.to_bit_representation(), piece_removed);
     }
 
@@ -95,22 +94,20 @@ namespace esochess {
     }
 
     bitboard& bitboard::add_piece_at_square(const bitboard::bit_representation& bits,
-            const bitboard::piece& piece_added) {
-
+                                            const bitboard::piece& piece_added) {
         _bitboards.at(piece_added.bitboard_index) |= bits;
 
         return *this;
     }
 
     bitboard& bitboard::add_piece_at_square(const bitboard::cordinate& cord,
-            const bitboard::piece& piece_added) {
+                                            const bitboard::piece& piece_added) {
         return add_piece_at_square(cord.to_bit_representation(), piece_added);
     }
 
     bitboard::bitboard(const bitboard::chess_grid& grid) {
         for (std::size_t y_cord {0}; y_cord < grid.size(); ++y_cord) {
             for (std::size_t x_cord {0}; x_cord < grid.at(y_cord).size(); ++x_cord) {
-
                 const bitboard::cordinate cord {static_cast<int>(x_cord), static_cast<int>(y_cord)};
                 const bitboard::piece chess_piece {grid.at(y_cord).at(x_cord)};
 
@@ -148,13 +145,12 @@ namespace esochess {
     }
 
     bitboard::moves_listing bitboard::available_moves(bitboard::Turn turn) {
-        if (_fullmove_number == _cached_moves_listing.full_move_calculated && (
-                (turn == Turn::White && _cached_moves_listing.white_pieces_moves_complete) ||
-                (turn == Turn::Black && _cached_moves_listing.black_pieces_moves_complete)
-                )
-            ) {
-            return turn == Turn::White ? _cached_moves_listing.white_pieces.value_or(moves_listing {}):
-                                         _cached_moves_listing.black_pieces.value_or(moves_listing {});
+        if (_fullmove_number == _cached_moves_listing.full_move_calculated &&
+            ((turn == Turn::White && _cached_moves_listing.white_pieces_moves_complete) ||
+             (turn == Turn::Black && _cached_moves_listing.black_pieces_moves_complete))) {
+            return turn == Turn::White
+                       ? _cached_moves_listing.white_pieces.value_or(moves_listing {})
+                       : _cached_moves_listing.black_pieces.value_or(moves_listing {});
         }
 
         moves_listing moves;
@@ -183,13 +179,13 @@ namespace esochess {
         return _cached_moves_listing;
     }
 
-    std::optional<bitboard::bit_representation> bitboard::controlled_squares(bitboard::Turn turn) const {
-        if (
-            (turn == Turn::White && _cached_moves_listing.white_pieces_bits_complete) ||
-            (turn == Turn::Black && _cached_moves_listing.black_pieces_bits_complete)
-            ) {
-            return turn == Turn::White ? _cached_moves_listing.white_pieces_bits.value_or(bit_representation {}):
-                                         _cached_moves_listing.black_pieces_bits.value_or(bit_representation {});
+    std::optional<bitboard::bit_representation>
+        bitboard::controlled_squares(bitboard::Turn turn) const {
+        if ((turn == Turn::White && _cached_moves_listing.white_pieces_bits_complete) ||
+            (turn == Turn::Black && _cached_moves_listing.black_pieces_bits_complete)) {
+            return turn == Turn::White
+                       ? _cached_moves_listing.white_pieces_bits.value_or(bit_representation {})
+                       : _cached_moves_listing.black_pieces_bits.value_or(bit_representation {});
         }
 
         return std::nullopt;
