@@ -8,6 +8,7 @@ CXX_FLAGS := -std=c++23 \
 			 -Wextra \
 			 -pedantic \
 			 -pipe \
+			 -g \
 			 $(LIBRARY_INCLUDES) \
 			 $(LXX_FLAGS)
 
