@@ -102,6 +102,15 @@ namespace esochess {
         return cordinates;
     }
 
+    bool bitboard::in_bounds(const bitboard::cordinate& cord) {
+        const int x_cordinate {cord.pos_x()};
+        const int y_cordinate {cord.pos_y()};
+
+        return (
+            (x_cordinate < 8 && x_cordinate >= 0) &&
+            (y_cordinate < 8 && y_cordinate >= 0));
+    }
+
     bitboard::piece bitboard::pieces::from_symbol(char symbol) {
         return *std::find_if(
             pieces::all_pieces.begin(), pieces::all_pieces.end(),
