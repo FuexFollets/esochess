@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <array>
 #include <bit>
+#include <optional>
 #include <string>
 
 #include "headers/move_generation.hpp"
@@ -180,5 +181,17 @@ namespace esochess {
 
     const bitboard::cached_moves_listing_t& bitboard::cached_moves_listing() const {
         return _cached_moves_listing;
+    }
+
+    std::optional<bitboard::bit_representation> bitboard::controlled_squares(bitboard::Turn turn) const {
+        if (
+            (turn == Turn::White && _cached_moves_listing.white_pieces_bits_complete) ||
+            (turn == Turn::Black && _cached_moves_listing.black_pieces_bits_complete)
+            ) {
+            return turn == Turn::White ? _cached_moves_listing.white_pieces_bits.value_or(bit_representation {}):
+                                         _cached_moves_listing.black_pieces_bits.value_or(bit_representation {});
+        }
+
+        return std::nullopt;
     }
 } // namespace esochess
