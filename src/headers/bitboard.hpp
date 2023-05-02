@@ -54,7 +54,7 @@ namespace esochess {
         struct cordinate {
             cordinate() = default;
             cordinate(int pos_x, int pos_y);
-            explicit cordinate(std::string cordinate_string);
+            explicit cordinate(const std::string& cordinate_string);
             explicit cordinate(bit_representation bit_mask);
 
             bool operator==(const cordinate& other) const noexcept = default;
@@ -239,7 +239,7 @@ namespace esochess {
         [[nodiscard]] std::optional<en_passant_square> en_passant() const;
         [[nodiscard]] castle_rights_collection castle_rights() const;
         [[nodiscard]] int halfmove_clock() const;
-        [[nodiscard]] int fullmove_clock() const;
+        [[nodiscard]] int fullmove_number() const;
 
         struct moves_listing {
             std::vector<move_normal> normal_moves;
@@ -271,7 +271,7 @@ namespace esochess {
         [[nodiscard]] moves_listing available_moves();
         [[nodiscard]] std::optional<bit_representation> controlled_squares(Turn checked_turn) const;
         [[nodiscard]] bit_representation bitboard_bitor_accumulation(Turn turn) const;
-        [[nodiscard]] const cached_moves_listing_t& cached_moves_listing() const;
+        [[nodiscard]] cached_moves_listing_t& cached_moves_listing();
 
         static Turn opposite_turn(Turn turn);
         static Turn opposite_turn(const piece& piece);
