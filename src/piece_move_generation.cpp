@@ -89,7 +89,7 @@ namespace esochess {
             })};
 
         const bitboard::Turn turn {board.turn()};
-        const bitboard::cached_moves_listing_t cached_moves_listing {board.cached_moves_listing()};
+        const bitboard::cached_moves_listing_t& cached_moves_listing {board.cached_moves_listing()};
 
         if (turn == bitboard::Turn::White &&
             (board.castle_rights().white_king_side) && // white king side can castle
