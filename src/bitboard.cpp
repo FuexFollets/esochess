@@ -3,6 +3,7 @@
 #include <bit>
 #include <string>
 
+#include "headers/move_generation.hpp"
 #include "headers/bitboard.hpp"
 
 namespace esochess {
@@ -143,6 +144,38 @@ namespace esochess {
                 x_cord++;
             }
         }
+    }
+
+    bitboard::moves_listing bitboard::available_moves(bitboard::Turn turn) {
+        if (_fullmove_number == _cached_moves_listing.full_move_calculated && (
+                (turn == Turn::White && _cached_moves_listing.white_pieces_moves_complete) ||
+                (turn == Turn::Black && _cached_moves_listing.black_pieces_moves_complete)
+                )
+            ) {
+            return turn == Turn::White ? _cached_moves_listing.white_pieces.value_or(moves_listing {}):
+                                         _cached_moves_listing.black_pieces.value_or(moves_listing {});
+        }
+
+        moves_listing moves;
+
+        add_pawn_moves(*this, moves);
+        add_king_moves(*this, moves);
+        add_rook_bishop_queen_moves(*this, moves);
+        add_knight_moves(*this, moves);
+
+        _cached_moves_listing.full_move_calculated = _fullmove_number;
+
+        if (turn == Turn::White) {
+            _cached_moves_listing.white_pieces = moves;
+            _cached_moves_listing.white_pieces_moves_complete = true;
+        }
+
+        else {
+            _cached_moves_listing.black_pieces = moves;
+            _cached_moves_listing.black_pieces_moves_complete = true;
+        }
+
+        return moves;
     }
 
     const bitboard::cached_moves_listing_t& bitboard::cached_moves_listing() const {

@@ -267,8 +267,8 @@ namespace esochess {
             bool operator!=(const cached_moves_listing_t&) const noexcept; // Always return true
         };
 
-        [[nodiscard]] moves_listing available_moves(Turn turn) const;
-        [[nodiscard]] moves_listing available_moves() const;
+        [[nodiscard]] moves_listing available_moves(Turn turn);
+        [[nodiscard]] moves_listing available_moves();
         [[nodiscard]] bit_representation controlled_squares(Turn checked_turn) const;
         [[nodiscard]] bit_representation bitboard_bitor_accumulation(Turn turn) const;
         [[nodiscard]] const cached_moves_listing_t& cached_moves_listing() const;
