@@ -128,6 +128,13 @@ namespace esochess {
                              });
     }
 
+    bitboard::cordinate bitboard::en_passant_square::to_cordinate() const {
+        return cordinate {
+            static_cast<int>(column_index),
+            (captureable_piece_color == Turn::White) ? 5 : 2,
+        };
+    }
+
     bitboard& bitboard::remove_piece_at_square(const bitboard::bit_representation& bits,
                                                const piece& piece_removed) {
         _bitboards.at(piece_removed.bitboard_index) &= ~bits;
