@@ -63,6 +63,26 @@ namespace esochess {
         return _bitboards;
     }
 
+    bitboard::Turn bitboard::turn() const {
+        return _turn;
+    }
+
+    std::optional<bitboard::en_passant_square> bitboard::en_passant() const {
+        return _en_passant;
+    }
+
+    bitboard::castle_rights_collection bitboard::castle_rights() const {
+        return _castle_rights;
+    }
+
+    int bitboard::halfmove_clock() const {
+        return _halfmove_clock;
+    }
+
+    int bitboard::fullmove_number() const {
+        return _fullmove_number;
+    }
+
     bitboard::Turn bitboard::opposite_turn(Turn turn) {
         return (turn == Turn::White) ? Turn::Black : Turn::White;
     }
