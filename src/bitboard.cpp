@@ -194,4 +194,28 @@ namespace esochess {
 
         return std::nullopt;
     }
+
+    bitboard::bit_representtion bitboard::bitboard_bitor_accumulation(Turn turn) const {
+        bit_representation accumulation {0};
+
+        if (turn == Turn::White) {
+            for (const auto& piece: pieces::white_pieces) {
+                accumulation |= _bitboards.at(piece.bitboard_index);
+            }
+        }
+
+        if (turn == Turn::Black) {
+            for (const auto& piece: pieces::black_pieces) {
+                accumulation |= _bitboards.at(piece.bitboard_index);
+            }
+        }
+
+        if (turn == Turn::All) {
+            for (const auto& piece: pieces::all_pieces) {
+                accumulation |= _bitboards.at(piece.bitboard_index);
+            }
+        }
+
+        return accumulation;
+    }
 } // namespace esochess
