@@ -162,6 +162,12 @@ namespace esochess {
         return add_piece_at_square(cord.to_bit_representation(), piece_added);
     }
 
+    bitboard& bitboard::xor_piece(const bit_representation& bits, const piece &piece_modified) {
+        _bitboards.at(piece_modified.bitboard_index) ^= bits;
+
+        return *this;
+    }
+
     bitboard::bitboard(const bitboard::chess_grid& grid) {
         for (std::size_t y_cord {0}; y_cord < grid.size(); ++y_cord) {
             for (std::size_t x_cord {0}; x_cord < grid.at(y_cord).size(); ++x_cord) {
