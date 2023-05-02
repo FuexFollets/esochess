@@ -12,6 +12,34 @@ namespace esochess {
         return std::string {symbol};
     }
 
+    bitboard::Turn bitboard::color_at_square(const bitboard::bit_representation& bit_mask) const {
+        for (const bitboard::piece& chess_piece: pieces::all_pieces) {
+            if ((_bitboards.at(chess_piece.bitboard_index) & bit_mask) != 0) {
+                return chess_piece.turn;
+            }
+        }
+
+        return Turn::None;
+    }
+
+    bitboard::Turn bitboard::color_at_square(const bitboard::cordinate& cord) const {
+        return color_at_square(cord.to_bit_representation());
+    }
+
+    bitboard::piece bitboard::piece_at_square(const bitboard::bit_representation& bit_mask) const {
+        for (const bitboard::piece& chess_piece: pieces::all_pieces) {
+            if ((_bitboards.at(chess_piece.bitboard_index) & bit_mask) != 0) {
+                return chess_piece;
+            }
+        }
+
+        return pieces::empty_piece;
+    }
+
+    bitboard::piece bitboard::piece_at_square(const bitboard::cordinate& cord) const {
+        return piece_at_square(cord.to_bit_representation());
+    }
+
     bitboard::chess_grid bitboard::to_grid() const {
         bitboard::chess_grid grid {};
 
