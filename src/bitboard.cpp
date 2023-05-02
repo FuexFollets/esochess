@@ -106,9 +106,7 @@ namespace esochess {
         const int x_cordinate {cord.pos_x()};
         const int y_cordinate {cord.pos_y()};
 
-        return (
-            (x_cordinate < 8 && x_cordinate >= 0) &&
-            (y_cordinate < 8 && y_cordinate >= 0));
+        return ((x_cordinate < 8 && x_cordinate >= 0) && (y_cordinate < 8 && y_cordinate >= 0));
     }
 
     bitboard::piece bitboard::pieces::from_symbol(char symbol) {
@@ -169,7 +167,7 @@ namespace esochess {
         return add_piece_at_square(cord.to_bit_representation(), piece_added);
     }
 
-    bitboard& bitboard::xor_piece(const bit_representation& bits, const piece &piece_modified) {
+    bitboard& bitboard::xor_piece(const bit_representation& bits, const piece& piece_modified) {
         _bitboards.at(piece_modified.bitboard_index) ^= bits;
 
         return *this;
@@ -227,9 +225,10 @@ namespace esochess {
         bitboard::controlled_squares(bitboard::Turn turn) const {
         if ((turn == Turn::White && _cached_moves_listing.white_pieces_bits_complete) ||
             (turn == Turn::Black && _cached_moves_listing.black_pieces_bits_complete)) {
-            return turn == Turn::White
-                       ? _cached_moves_listing.white_controlled_squares.value_or(bit_representation {})
-                       : _cached_moves_listing.black_controlled_squares.value_or(bit_representation {});
+            return turn == Turn::White ? _cached_moves_listing.white_controlled_squares.value_or(
+                                             bit_representation {})
+                                       : _cached_moves_listing.black_controlled_squares.value_or(
+                                             bit_representation {});
         }
 
         return std::nullopt;
