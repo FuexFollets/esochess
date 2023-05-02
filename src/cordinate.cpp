@@ -1,9 +1,14 @@
 #include <bit>
+#include <string>
 
 #include "headers/bitboard.hpp"
 
 namespace esochess {
     bitboard::cordinate::cordinate(int pos_x, int pos_y) : _x {pos_x}, _y {pos_y} {
+    }
+
+    bitboard::cordinate::cordinate(const std::string& cordinate_string) :
+        _x {cordinate_string.at(0) - 'a'}, _y {cordinate_string.at(1) - '1'} {
     }
 
     bitboard::cordinate::cordinate(bitboard::bit_representation bit_mask) :
